@@ -14,7 +14,13 @@ class CreateMapsTable extends Migration
     public function up()
     {
         Schema::create('maps', function (Blueprint $table) {
-            $table->id();
+            $table->bigIncrements('id');
+            $table->string('type', 100)->nullable();
+            $table->string('lettini_number', 100)->nullable();
+            $table->string('gazebo_number', 100)->nullable();
+            $table->float('gazebo_price')->nullable()->default(0.00);
+            $table->string('position')->nullable();
+            $table->float('lettini_price')->nullable()->default(0.00);
             $table->timestamps();
         });
     }

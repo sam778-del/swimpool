@@ -15,18 +15,6 @@
 @endsection
 
 @section('page-content')
-<div class="row-title  card-body border-bottom">
-    <div class="col col-3">
-    </div>
-    <div class="btn-group" role="group">
-        @can('Create User')
-            <a href="{{ route("operator.create") }}" class="btn btn-primary">
-                <i class="bi bi-plus-lg"></i>
-                {{ __('Crea operatore') }}
-            </a>
-        @endcan
-    </div>
-</div>
 <div class="col-12">
     <div class="card-body border-bottom">
         <div class="row align-items-center">
