@@ -55,7 +55,7 @@ class UserController extends Controller
         {
             return view('operator.index');
         }else{
-            return redirect()->back()->with('error', __('Permesso negato'));
+            return redirect()->back()->with('error', __('Permesso negato.'));
         }
     }
 

@@ -7,6 +7,8 @@ use App\Http\Controllers\{
     UserController,
     OrderController,
     ManualOrderController,
+    MapController,
+    ClientController
 };
 
 /*
@@ -31,5 +33,6 @@ Route::get('get-operator', [UserController::class, 'datatables'])->name('operato
 Route::resource('client', ClientController::class)->middleware(['auth']);
 Route::resource('order', OrderController::class)->middleware(['auth']);
 Route::resource('maunal-order', ManualOrderController::class)->middleware(['auth']);
+Route::resource('table-map', MapController::class)->middleware(['auth']);
 
 

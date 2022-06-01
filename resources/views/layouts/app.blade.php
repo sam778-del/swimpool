@@ -12,16 +12,32 @@
       </title>
       <link rel="icon" href="favicon.ico" type="image/x-icon">
       <link rel="stylesheet" href="{{ asset('css/luno.style.min.css') }}">
-      <link rel="stylesheet" href="{{ asset('css/dataTables.min.css') }}">
+      @if(Request::segment(1) != 'table-map')
+        <link rel="stylesheet" href="{{ asset('css/dataTables.min.css') }}">
+      @endif
+      @if(Request::segment(1) == 'table-map')
+        <link rel="stylesheet" href="{{ asset('css/style.css') }}">
+        <style>
+            body {
+              background: #ffffcc;
+              margin: 0px;
+              padding: 0px
+            }
+        </style>
+      @endif
       @stack('stylesheets')
    </head>
    <body class="layout-1" data-luno="theme-blue">
       <!-- start: sidebar -->
+      @if(Request::segment(1) != 'table-map')
         @include('layouts.sidebar')
+      @endif
       <!-- start: body area -->
       <div class="wrapper">
          <!-- start: page header -->
-         @include('layouts.header')
+         @if(Request::segment(1) != 'table-map')
+          @include('layouts.header')
+         @endif
          <!-- start: page toolbar -->
          <div class="page-toolbar px-xl-4 px-sm-2 px-0 py-3">
             <div class="container-fluid">
@@ -33,7 +49,9 @@
          </div>
          <!-- start: page body -->
          <!-- start: page footer -->
-         @include('layouts.footer')
+         @if(Request::segment(1) != 'table-map')
+          @include('layouts.footer')
+         @endif
       </div>
       <!-- Jquery Core Js -->
       <script src="{{ asset('/bundles/libscripts.bundle.js') }}"></script>

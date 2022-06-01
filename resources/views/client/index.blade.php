@@ -34,7 +34,7 @@
             <div class="col ml-n2">
             </div>
             {{-- End of other widget --}}
-            @can('Create User')
+            @can('Create Branch')
                 <div class="col-auto d-none d-md-inline-block">
                     <a href="{{ route("operator.create") }}" class="btn btn-primary">
                         <i class="bi bi-plus-lg"></i>

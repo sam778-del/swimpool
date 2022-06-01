@@ -145,7 +145,17 @@ class UserTableSeeder extends Seeder
         $shop_owner_role->created_by = $shop_owner->id;
         $shop_owner_role->save();
 
-        $shop_owner_role ->givePermissionTo($shop_owner_permissions);
+        $shop_owner_role->givePermissionTo($shop_owner_permissions);
         $shop_owner->assignRole($shop_owner_role);
+
+        $operator_role                = new Role();
+        $operator_role->name          = 'Operator';
+        $operator_role->created_by    = $shop_owner_role->id;
+        $operator_role->save();
+
+        $client_role                = new Role();
+        $client_role->name          = 'Client';
+        $client_role->created_by    = $shop_owner_role->id;
+        $client_role->save();
     }
 }
