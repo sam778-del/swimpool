@@ -18820,10 +18820,6 @@ if (typeof jQuery === "undefined") {
 }
 
 // LUNO version update dynamic
-window.addEventListener("load", () => {
-    var first = document.getElementById("Changelog");
-    first.outerHTML = '<span class="badge bg-primary ms-auto">v1.0.9</span>';
-});
 
 // general js project js
 $(function() {
@@ -19086,9 +19082,7 @@ $(function() {
             localStorage.setItem('theme', 'light');
         }  
     }
-    toggleSwitch.addEventListener('change', switchTheme, false);
-    toggleHcSwitch.addEventListener('change', switchHc, false);
-    toggleTDSwitch.addEventListener('change', switchTD, false);
+
 
     // quick action light/dark
     $(".quick-light-dark").on("click",function() {
@@ -19201,14 +19195,3 @@ $(function() {
 // $(document).on("contextmenu",function(e){
 //        return false;
 // });
-
-
-var Tawk_API=Tawk_API||{}, Tawk_LoadStart=new Date();
-(function(){
-    var s1=document.createElement("script"),s0=document.getElementsByTagName("script")[0];
-    s1.async=true;
-    s1.src='https://embed.tawk.to/5c6d4867f324050cfe342c69/default';
-    s1.charset='UTF-8';
-    s1.setAttribute('crossorigin','*');
-    s0.parentNode.insertBefore(s1,s0);
-})();

@@ -11,8 +11,8 @@
         {{ config('app.name', 'Tailax') }}
       </title>
       <link rel="icon" href="favicon.ico" type="image/x-icon">
-      <link rel="stylesheet" href="{{ asset('/css/luno.style.min.css') }}">
-      <link rel="stylesheet" href="{{ asset('/css/dataTables.min.css') }}">
+      <link rel="stylesheet" href="{{ asset('css/luno.style.min.css') }}">
+      <link rel="stylesheet" href="{{ asset('css/dataTables.min.css') }}">
       @stack('stylesheets')
    </head>
    <body class="layout-1" data-luno="theme-blue">

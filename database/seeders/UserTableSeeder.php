@@ -55,6 +55,60 @@ class UserTableSeeder extends Seeder
                 'created_at' => date('Y-m-d H:i:s'),
                 'updated_at' => date('Y-m-d H:i:s'),
             ),
+            array(
+                'name' => 'Manage Manual Order',
+                'guard_name' => 'web',
+                'created_at' => date('Y-m-d H:i:s'),
+                'updated_at' => date('Y-m-d H:i:s'),
+            ),
+            array(
+                'name' => 'Manage Order',
+                'guard_name' => 'web',
+                'created_at' => date('Y-m-d H:i:s'),
+                'updated_at' => date('Y-m-d H:i:s'),
+            ),
+            array(
+                'name' => 'Edit Order',
+                'guard_name' => 'web',
+                'created_at' => date('Y-m-d H:i:s'),
+                'updated_at' => date('Y-m-d H:i:s'),
+            ),
+            array(
+                'name' => 'Print Order',
+                'guard_name' => 'web',
+                'created_at' => date('Y-m-d H:i:s'),
+                'updated_at' => date('Y-m-d H:i:s'),
+            ),
+            array(
+                'name' => 'Manage Map',
+                'guard_name' => 'web',
+                'created_at' => date('Y-m-d H:i:s'),
+                'updated_at' => date('Y-m-d H:i:s'),
+            ),
+            array(
+                'name' => 'Edit Map',
+                'guard_name' => 'web',
+                'created_at' => date('Y-m-d H:i:s'),
+                'updated_at' => date('Y-m-d H:i:s'),
+            ),
+            array(
+                'name' => 'Manage Customer',
+                'guard_name' => 'web',
+                'created_at' => date('Y-m-d H:i:s'),
+                'updated_at' => date('Y-m-d H:i:s'),
+            ),
+            array(
+                'name' => 'Edit Customer',
+                'guard_name' => 'web',
+                'created_at' => date('Y-m-d H:i:s'),
+                'updated_at' => date('Y-m-d H:i:s'),
+            ),
+            array(
+                'name' => 'Create Customer',
+                'guard_name' => 'web',
+                'created_at' => date('Y-m-d H:i:s'),
+                'updated_at' => date('Y-m-d H:i:s'),
+            ),
         );
 
         Permission::insert($allPermissions);
@@ -66,6 +120,15 @@ class UserTableSeeder extends Seeder
             ["name" => "Create User"],
             ["name" => "Edit User"],
             ["name" => "Delete User"],
+            ["name" => "Manage Manual Order"],
+            ["name" => "Manage Order"],
+            ["name" => "Edit Order"],
+            ["name" => "Print Order"],
+            ["name" => "Manage Map"],
+            ["name" => "Edit Map"],
+            ["name" => 'Manage Customer'],
+            ["name" => "Edit Customer"],
+            ["name" => "Create Customer"]
         );
 
         $shop_owner = new User();
@@ -83,9 +146,6 @@ class UserTableSeeder extends Seeder
         $shop_owner_role->save();
 
         $shop_owner_role ->givePermissionTo($shop_owner_permissions);
-
-
-
         $shop_owner->assignRole($shop_owner_role);
     }
 }

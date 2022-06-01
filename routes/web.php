@@ -4,6 +4,9 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\{
     HomeController,
     FrontendController,
+    UserController,
+    OrderController,
+    ManualOrderController,
 };
 
 /*
@@ -22,5 +25,11 @@ require __DIR__ . '/auth.php';
 Route::get('/home', [HomeController::class, 'index'])->name('home')->middleware(["auth"]);
 
 Route::get('/', [FrontendController::class, 'index'])->name('front_site');
+
+Route::resource('operator', UserController::class)->middleware(['auth']);
+Route::get('get-operator', [UserController::class, 'datatables'])->name('operator.datatables');
+Route::resource('client', ClientController::class)->middleware(['auth']);
+Route::resource('order', OrderController::class)->middleware(['auth']);
+Route::resource('maunal-order', ManualOrderController::class)->middleware(['auth']);
 
 

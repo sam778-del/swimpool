@@ -8,7 +8,7 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 use Spatie\Permission\Traits\HasRoles;
-use App\Models\Currency;
+use Illuminate\Support\Facades\Storage;
 
 class User extends Authenticatable
 {
@@ -51,7 +51,7 @@ class User extends Authenticatable
 
     public function getUserProfile()
     {
-        return !empty($this->avatar) ? $this->avatar : 'logo/avatar.jpg';
+        return !empty($user->avatar) ? asset(Storage::url($operator->avatar)) : asset('images/avatar.png');;
     }
 
     public function CreatedBy()
@@ -59,47 +59,14 @@ class User extends Authenticatable
         return ($this->parent_id == '0' || $this->parent_id == '1') ? $this->id : $this->parent_id;
     }
 
-    public function getDefaultCurrency()
-    {
-        $currency = Currency::where("is_default", 1)->first();
-        if(!empty($currency))
-        {
-            return $currency->currency_symbol;
-        }else{
-            return '$';
-        }
-    }
-
-    public function getDefaultCurrencyAmount()
-    {
-        $currency = Currency::where("is_default", 1)->first();
-        if(!empty($currency))
-        {
-            return $currency->amount;
-        }else{
-            return 1;
-        }
-    }
-
     public function isAdmin()
     {
-        return $this->parent_id == 0 && $this->is_active == 1 && $this->user_status == 1;
+        return $this->parent_id == 0 && $this->is_active == 1;
     }
 
     public function isUser()
     {
-        return $this->parent_id == 1 && $this->is_active == 1 && $this->user_status == 1;
-    }
-
-
-    public function getDefaultBranch()
-    {
-
-    }
-
-    public function getBranchName()
-    {
-
+        return $this->parent_id == 1 && $this->is_active == 1;
     }
 
     /**
