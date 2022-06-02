@@ -33,7 +33,7 @@
 		</div>
 	</div>
 </div>
-<div class="row align-items-center">
+<div class="row align-items-center" style="width: 100%">
     <div class="page-body px-xl-4 px-sm-2 px-0 py-lg-2 py-1 mt-0 mt-lg-3">
         <div class="container-fluid">
             @php
@@ -59,7 +59,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-2">
+                <div class="col-2" style="background-image: url('images/passerella.png'); border:0px;">
                 </div>
                 <div class="col-6">
                     <div class="dd card fieldset border border-primary mb-5">
@@ -76,7 +76,7 @@
             </div>
             <br>
             <div class="row">
-                <div class="col-11">
+                <div class="col-11" style="background-image: url('images/passerella.png'); border:0px;">
                 </div>
                 <div class="col-1">
                     <div class="dd card fieldset border border-primary mb-5">
@@ -104,7 +104,8 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-6">
+                <div class="col-6" style="background-image: url('images/sfondoacquapiscina.jpg'); border:0px;">
+                    {{-- <td style="background-image: url('images/sfondoacquapiscina.jpg'); border:0px;"></td> --}}
                 </div>
                 <div class="col-1">
                     <div class="dd card fieldset border border-primary mb-5">
@@ -122,9 +123,9 @@
                     <div class="dd card fieldset border border-primary mb-5">
                         <div class="project-members mb-2">
                             @foreach($six_map as $key => $item)
-                            <font style="font-size:10px;">{{ $item->lettini_number }}</font>
+                            <font style="font-size:10px;">GAZEBO {{ $item->gazebo_number }}</font>
                             <span style="background:#00CCCC;" onclick="viewGazeboModalMap({{ $item->id }})">
-                            <input type="image" style="background:transparent;" src="images/ico-ombrellone.png" width="45px" height="49px" title="45">
+                            <input type="image" style="background:transparent;" src="images/ico-gazebo.png" width="45px" height="49px" title="45">
                             <input type="checkbox" name="187"></span>
                             @endforeach
                         </div>
