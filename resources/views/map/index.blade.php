@@ -40,6 +40,9 @@
                 $tweleve_map = \DB::table('maps')->where('position', 12)->get();
                 $twentyfour_map = \DB::table('maps')->where('position', 24)->get();
                 $fourty_map = \DB::table('maps')->where('position', 42)->get();
+                $ten_map = \DB::table('maps')->where('position', 10)->get();
+                $six_map = \DB::table('maps')->where('position', 6)->limit(6)->get();
+                $one_map = \DB::table('maps')->where('position', 1)->limit(1)->get();
             @endphp
             <div class="row">
                 <div class="col-4">
@@ -71,6 +74,22 @@
             </div>
             <br>
             <div class="row">
+                <div class="col-11">
+                </div>
+                <div class="col-1">
+                    <div class="dd card fieldset border border-primary mb-5">
+                        <div class="project-members mb-2">
+                            @foreach($one_map as $key => $item)
+                            <font style="font-size:10px;">{{ $item->lettini_number }}</font>
+                            <span style="background:#00CCCC;">
+                            <input type="image" style="background:transparent;" src="images/ico-ombrellone.png" width="45px" height="49px" title="45">
+                            <input type="checkbox" name="187"></span>
+                            @endforeach
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
                 <div class="col-4">
                     <div class="dd card fieldset border border-primary mb-5">
                         <div class="project-members mb-4">
@@ -83,15 +102,27 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-2">
-                </div>
                 <div class="col-6">
+                </div>
+                <div class="col-1">
                     <div class="dd card fieldset border border-primary mb-5">
-                        <div class="project-members mb-4">
-                            @foreach($twentyfour_map as $key => $item)
+                        <div class="project-members mb-2">
+                            @foreach($ten_map as $key => $item)
                             <font style="font-size:10px;">{{ $item->lettini_number }}</font>
                             <span style="background:#00CCCC;">
                             <input type="image" style="background:transparent;" src="images/ico-ombrellone.png" width="56px" height="49px" title="45">
+                            <input type="checkbox" name="187"></span>
+                            @endforeach
+                        </div>
+                    </div>
+                </div>
+                <div class="col-1">
+                    <div class="dd card fieldset border border-primary mb-5">
+                        <div class="project-members mb-2">
+                            @foreach($six_map as $key => $item)
+                            <font style="font-size:10px;">{{ $item->lettini_number }}</font>
+                            <span style="background:#00CCCC;">
+                            <input type="image" style="background:transparent;" src="images/ico-ombrellone.png" width="45px" height="49px" title="45">
                             <input type="checkbox" name="187"></span>
                             @endforeach
                         </div>
