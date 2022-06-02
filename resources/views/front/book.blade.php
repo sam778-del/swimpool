@@ -99,7 +99,7 @@
 	<center>
 		<fieldset style="width:400px;padding:20px;border-radius:15px 120px 15px 120px;background:transparent url('images/frecce-destra.png')bottom right no-repeat;">
 			<legend style="background:white;border-radius:60px;padding:20px;margin-left:-50px;font-family:arial;">PRENOTA UN OMBRELLONE</LEGEND>
-			<form method=get action=vistagiornoricercacliente.php target=_self>
+			<form method=get id="submit-form" action="{{ url('vistagiornoricercacliente') }}" target=_self>
 				<table style="background:transparent;border:0px;">
 					<tr>
 						<td align=right style="background:transparent;border:0px;float:left;">
@@ -109,7 +109,7 @@
 								<td colspan=4 style="background:transparent;border:0px;">
 									<input type=checkbox name=gdpr id="myCheck" /><font style="color:blue;">Privacy art. 13 e 14 del GDPR - Regolamento UE 2016/679</font>
 									<br>
-									<input type=image height=40px src="https://www.gorizianuoto.cloud/images/vai.png" /> </table>
+									<input type=image id="checkMap" height=40px src="https://www.gorizianuoto.cloud/images/vai.png" /> </table>
 			</form>
 			<br>
 			<br>
@@ -122,6 +122,23 @@
 		</fieldset>
 		<br>
     </center>
+
+	<script>
+		$('#checkMap').on('click', function(e) {
+			e.preventDefault();
+			if($('input[name="gdpr"]').is(':checked'))
+			{
+				var arrivo = $('input[name="arrivo"]').val();
+				var partenza = $('input[name="partenza"]').val();
+                $('#submit-form').submit();
+				console.log(arrivo, partenza)
+			 //window.location.href = '{{ url('/') }}';
+			}else
+			{
+				alert('Per proseguire accettare la privacy');
+			}
+		});
+	</script>
 </body>
 </html>
 

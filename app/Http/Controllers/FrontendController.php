@@ -10,4 +10,14 @@ class FrontendController extends Controller
     {
         return view('front.book');
     }
+
+    public function showMap()
+    {
+        return view('front.map');
+    }
+
+    public function insertMap(Request $request)
+    {
+        return $request->all();
+    }
 }

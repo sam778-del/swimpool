@@ -109,6 +109,30 @@ class UserTableSeeder extends Seeder
                 'created_at' => date('Y-m-d H:i:s'),
                 'updated_at' => date('Y-m-d H:i:s'),
             ),
+            array(
+                'name' => 'Manage Accessories',
+                'guard_name' => 'web',
+                'created_at' => date('Y-m-d H:i:s'),
+                'updated_at' => date('Y-m-d H:i:s'),
+            ),
+            array(
+                'name' => 'Create Accessories',
+                'guard_name' => 'web',
+                'created_at' => date('Y-m-d H:i:s'),
+                'updated_at' => date('Y-m-d H:i:s'),
+            ),
+            array(
+                'name' => 'Edit Accessories',
+                'guard_name' => 'web',
+                'created_at' => date('Y-m-d H:i:s'),
+                'updated_at' => date('Y-m-d H:i:s'),
+            ),
+            array(
+                'name' => 'Delete Accessories',
+                'guard_name' => 'web',
+                'created_at' => date('Y-m-d H:i:s'),
+                'updated_at' => date('Y-m-d H:i:s'),
+            ),
         );
 
         Permission::insert($allPermissions);
@@ -128,7 +152,11 @@ class UserTableSeeder extends Seeder
             ["name" => "Edit Map"],
             ["name" => 'Manage Customer'],
             ["name" => "Edit Customer"],
-            ["name" => "Create Customer"]
+            ["name" => "Create Customer"],
+            ["name" => "Manage Accessories"],
+            ["name" => "Create Accessories"],
+            ["name" => "Edit Accessories"],
+            ["name" => "Delete Accessories"],
         );
 
         $shop_owner = new User();

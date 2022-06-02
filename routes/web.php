@@ -8,7 +8,8 @@ use App\Http\Controllers\{
     OrderController,
     ManualOrderController,
     MapController,
-    ClientController
+    ClientController,
+    AccesoryController
 };
 
 /*
@@ -37,5 +38,10 @@ Route::resource('table-map', MapController::class)->middleware(['auth']);
 Route::get('showMap', [MapController::class, 'show'])->middleware(['auth']);
 Route::post('updateMap', [MapController::class, 'update'])->middleware(['auth']);
 Route::post('updateGazeboMap', [MapController::class, 'updateGazebo'])->middleware(['auth']);
+Route::resource('accessory', AccesoryController::class)->middleware(['auth']);
+Route::get('get-accessory', [AccesoryController::class, 'datatables'])->name('accessory.datatables');
 
+
+Route::get('vistagiornoricercacliente', [FrontendController::class, 'showMap']);
+Route::get('aggiungiprenotazione1bisdaombrellonecliente', [FrontendController::class, 'insertMap']);
 

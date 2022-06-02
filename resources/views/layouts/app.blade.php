@@ -5,17 +5,17 @@
       <meta name="viewport" content="width=device-width, initial-scale=1">
       <meta name="csrf-token" content="{{ csrf_token() }}">
       <title>
-        @if(trim($__env->yieldContent('page-title')))
-            @yield('page-title') -
-        @endif
         {{ config('app.name', 'Tailax') }}
+        @if(trim($__env->yieldContent('page-title')))
+            - @yield('page-title')
+        @endif
       </title>
       <link rel="icon" href="favicon.ico" type="image/x-icon">
       <link rel="stylesheet" href="{{ asset('css/luno.style.min.css') }}">
-      @if(Request::segment(1) != 'table-map')
+      @if(Request::segment(1) != 'vistagiornoricercacliente')
         <link rel="stylesheet" href="{{ asset('css/dataTables.min.css') }}">
       @endif
-      @if(Request::segment(1) == 'table-map')
+      @if(Request::segment(1) == 'vistagiornoricercacliente')
         <link rel="stylesheet" href="{{ asset('css/style.css') }}">
         <style>
             body {
@@ -29,13 +29,13 @@
    </head>
    <body class="layout-1" data-luno="theme-blue">
       <!-- start: sidebar -->
-      @if(Request::segment(1) != 'table-map')
+      @if(Request::segment(1) != 'vistagiornoricercacliente')
         @include('layouts.sidebar')
       @endif
       <!-- start: body area -->
       <div class="wrapper">
          <!-- start: page header -->
-         @if(Request::segment(1) != 'table-map')
+         @if(Request::segment(1) != 'vistagiornoricercacliente')
           @include('layouts.header')
          @endif
          <!-- start: page toolbar -->
@@ -49,7 +49,7 @@
          </div>
          <!-- start: page body -->
          <!-- start: page footer -->
-         @if(Request::segment(1) != 'table-map')
+         @if(Request::segment(1) != 'vistagiornoricercacliente')
           @include('layouts.footer')
          @endif
       </div>
