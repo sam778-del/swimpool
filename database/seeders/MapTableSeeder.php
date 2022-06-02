@@ -15,14 +15,14 @@ class MapTableSeeder extends Seeder
      */
     public function run()
     {
-        $map_twelve_range = range(0, 41);
+        $map_twelve_range = range(0, 6);
         foreach ($map_twelve_range as $key => $value) {
             $map_twelve                     = new Map();
             $map_twelve->type               = 'Lettino';
             $map_twelve->lettini_number     = $key + 1;
             $map_twelve->gazebo_number      = $key + 1;
             $map_twelve->gazebo_price       = 34;
-            $map_twelve->position           = 42;
+            $map_twelve->position           = 7;
             $map_twelve->lettini_price      = 65;
             $map_twelve->save();
 
@@ -35,7 +35,7 @@ class MapTableSeeder extends Seeder
             $table_map->low_summer_price    = 70;
             $table_map->saturday_price      = 80;
             $table_map->saturday_price      = 85;
-            $table_map->save(); 
+            $table_map->save();
         }
     }
 }

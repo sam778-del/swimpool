@@ -34,5 +34,8 @@ Route::resource('client', ClientController::class)->middleware(['auth']);
 Route::resource('order', OrderController::class)->middleware(['auth']);
 Route::resource('maunal-order', ManualOrderController::class)->middleware(['auth']);
 Route::resource('table-map', MapController::class)->middleware(['auth']);
+Route::get('showMap', [MapController::class, 'show'])->middleware(['auth']);
+Route::post('updateMap', [MapController::class, 'update'])->middleware(['auth']);
+Route::post('updateGazeboMap', [MapController::class, 'updateGazebo'])->middleware(['auth']);
 
 
