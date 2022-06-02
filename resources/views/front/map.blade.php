@@ -26,7 +26,7 @@
 <div class="row align-items-center" style="width: 100%">
     <div class="card" style="color:#000099; width:95%;  z-index:1; padding:5px;background:yellow; " >
         <center>
-            <h3>Giorno {{ date('d.m', strtotime($_GET['arrivo'])) }} - Seleziona i tuoi posti... poi clicca sul pulsante in basso per prenotare</h3>
+            <h3>Giorno {{ date('d.m', strtotime($_GET['arrivo'])) }} - {{ date('d.m', strtotime($_GET['partenza'])) }}  Seleziona i tuoi posti... poi clicca sul pulsante in basso per prenotare</h3>
         </center>
     </div>
     <div class="page-body px-xl-4 px-sm-2 px-0 py-lg-2 py-1 mt-0 mt-lg-3">
@@ -43,6 +43,7 @@
             <form method=get action="{{ url('aggiungiprenotazione1bisdaombrellonecliente') }}" target=_self >
                 <input type=hidden name="arrivo" class=mac readonly value="{{ date('d/m/Y', strtotime($_GET['arrivo'])) }}"  >
                 <input type=hidden name="partenza" class=mac readonly value="{{ date('d/m/Y', strtotime($_GET['partenza'])) }}" >
+                <input type="hidden" name="price_type" value="{{ $_GET['giornata'] }}" />
                 <div class="row">
                     <div class="col-4">
                         <div class="dd card fieldset border border-primary mb-5">
@@ -51,7 +52,7 @@
                                     <font style="font-size:10px;">{{ $item->lettini_number }}</font>
                                     <span style="background:#00CCCC;">
                                         <input type="image" style="background:transparent;" src="{{ asset('images/ico-ombrellone.png') }}" width="50px" height="49px">
-                                        <input type="checkbox" name="id" value="{{ $item->id }}">
+                                        <input type="checkbox" name="map_id[]" value="{{ $item->id }}">
                                     </span>
                                 @endforeach
                             </div>
@@ -66,7 +67,7 @@
                                 <font style="font-size:10px;">{{ $item->lettini_number }}</font>
                                 <span style="background:#00CCCC;">
                                 <input type="image" style="background:transparent;" src="images/ico-ombrellone.png" width="56px" height="49px" title="45">
-                                <input type="checkbox" name="{{ $item->id }}"></span>
+                                <input type="checkbox" name="map_id[]" value="{{ $item->id }}"></span>
                                 @endforeach
                             </div>
                         </div>
@@ -83,7 +84,7 @@
                                 <font style="font-size:10px;">{{ $item->lettini_number }}</font>
                                 <span style="background:#00CCCC;">
                                 <input type="image" style="background:transparent;" src="images/ico-ombrellone.png" width="45px" height="49px" title="45">
-                                <input type="checkbox" name="{{ $item->id }}"></span>
+                                <input type="checkbox" name="map_id[]" value="{{ $item->id }}"></span>
                                 @endforeach
                             </div>
                         </div>
@@ -97,7 +98,7 @@
                                 <font style="font-size:10px;">{{ $item->lettini_number }}</font>
                                 <span style="background:#00CCCC;">
                                 <input type="image" style="background:transparent;" src="images/ico-ombrellone.png" width="50px" height="49px" title="45">
-                                <input type="checkbox" name="{{ $item->id }}"></span>
+                                <input type="checkbox" name="map_id[]" value="{{ $item->id }}"></span>
                                 @endforeach
                             </div>
                         </div>
@@ -112,7 +113,7 @@
                                 <font style="font-size:10px;">{{ $item->lettini_number }}</font>
                                 <span style="background:#00CCCC;">
                                 <input type="image" style="background:transparent;" src="images/ico-ombrellone.png" width="56px" height="49px" title="45">
-                                <input type="checkbox" name="{{ $item->id }}"></span>
+                                <input type="checkbox" name="map_id[]" value="{{ $item->id }}"></span>
                                 @endforeach
                             </div>
                         </div>
@@ -124,7 +125,7 @@
                                 <font style="font-size:10px;">GAZEBO {{ $item->gazebo_number }}</font>
                                 <span style="background:#00CCCC;">
                                 <input type="image" style="background:transparent;" src="images/ico-gazebo.png" width="45px" height="49px" title="45">
-                                <input type="checkbox" name="{{ $item->id }}"></span>
+                                <input type="checkbox" name="map_id[]" value="{{ $item->id }}"></span>
                                 @endforeach
                             </div>
                         </div>
@@ -139,7 +140,7 @@
                                     <font style="font-size:10px;">{{ $item->lettini_number }}</font>
                                     <span style="background:#00CCCC;">
                                     <input type="image" style="background:transparent;" src="images/ico-ombrellone.png" width="50px" height="49px" title="45">
-                                    <input type="checkbox" name="{{ $item->id }}"></span>
+                                    <input type="checkbox" name="map_id[]" value="{{ $item->id }}"></span>
                                     @endforeach
                                 </div>
                             </div>

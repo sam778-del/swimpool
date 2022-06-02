@@ -39,9 +39,12 @@ Route::get('showMap', [MapController::class, 'show'])->middleware(['auth']);
 Route::post('updateMap', [MapController::class, 'update'])->middleware(['auth']);
 Route::post('updateGazeboMap', [MapController::class, 'updateGazebo'])->middleware(['auth']);
 Route::resource('accessory', AccesoryController::class)->middleware(['auth']);
+Route::delete('accessory/{id}', [AccesoryController::class, 'destroy'])->name('accessory.delete')->middleware(['auth']);
+Route::get('accessory/edit/{id}', [AccesoryController::class, 'edit'])->name('accessory.edi')->middleware(['auth']);
 Route::get('get-accessory', [AccesoryController::class, 'datatables'])->name('accessory.datatables');
 
 
 Route::get('vistagiornoricercacliente', [FrontendController::class, 'showMap']);
 Route::get('aggiungiprenotazione1bisdaombrellonecliente', [FrontendController::class, 'insertMap']);
+Route::get('calcolaprezzocliente', [FrontendController::class, 'calculationMap']);
 

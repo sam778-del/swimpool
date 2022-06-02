@@ -19,15 +19,6 @@
                     </div>
                 </div>
                 <div class="row mb-4">
-                    <label class="col-xl-2 col-sm-3 col-form-label">{{ __('Type') }} *</label>
-                    <div class="col-xl-8 col-sm-9">
-                        <select name="type" class="form-control form-control-lg">
-                            <option value="LETTINI">LETTINI</option>
-                            <option value="GAZEBO">GAZEBO</option>
-                        </select>
-                    </div>
-                </div>
-                <div class="row mb-4">
                     <label class="col-xl-2 col-sm-3 col-form-label">{{ __('Amount') }} *</label>
                     <div class="col-xl-8 col-sm-9">
                         {!! Form::number('amount', null, ["class" => "form-control form-control-lg", "placeholder" => __('Amount')]) !!}

@@ -43,7 +43,6 @@
                     <tr>
                         <th>{{ __('Nome') }}</th>
                         <th>{{ __('Amount') }}</th>
-                        <th>{{ __('Type') }}</th>
                         <th>{{ __('Action') }}</th>
                     </tr>
                 </thead>
@@ -74,7 +73,6 @@
             columns: [
                 { data: 'name', name: 'name' },
                 { data: 'amount', name: 'amount' },
-                { data: 'type', name: 'type' },
                 { data: 'action', searchable: false, orderable: false }
             ],
             language : {
@@ -82,43 +80,10 @@
             },
         });
     });
-    function makeDefault(url)
-    {
-        Swal.fire({
-            title: '{{ __("Vuoi salvare le modifiche?") }}',
-            showDenyButton: true,
-            showCancelButton: false,
-            confirmButtonText: '{{ __("Continue") }}',
-            denyButtonText: `{{ __("Cancel") }}`,
-        }).then((result) => {
-        /* Read more about isConfirmed, isDenied below */
-        if (result.isConfirmed) {
-                $.ajax({
-                    url: url,
-                    method: "PATCH",
-                    data: {
-                        _token: "{!! csrf_token() !!}"
-                    },
-                    success: function(data) {
-                        var oTable = $('#table_list').dataTable();
-                        oTable.fnDraw(false);
-                        if(data.status == true){
-                            toastr.success("{{__('Success') }}", data.msg, 'success');
-                        }else{
-                            toastr.error("{{__('Error') }}", data.msg, 'error');
-                        }
-                    },
-                    error: function(error) {
-                        Swal.fire('{{ __("L'azione non può essere completata") }}', '', 'error')
-                    }
-                });
-            } else if (result.isDenied) {
-                Swal.fire('{{ __("Modifiche annullate") }}', '', 'info')
-            }
-        })
-    }
+
     function deleteAction(url)
     {
+        console.log(url)
         Swal.fire({
             title: '{{ __("Vuoi salvare le modifiche?") }}',
             showDenyButton: true,

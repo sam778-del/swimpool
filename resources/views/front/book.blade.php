@@ -97,30 +97,72 @@
 
 <body>
 	<center>
-		<fieldset style="width:400px;padding:20px;border-radius:15px 120px 15px 120px;background:transparent url('images/frecce-destra.png')bottom right no-repeat;">
-			<legend style="background:white;border-radius:60px;padding:20px;margin-left:-50px;font-family:arial;">PRENOTA UN OMBRELLONE</LEGEND>
-			<form method=get id="submit-form" action="{{ url('vistagiornoricercacliente') }}" target=_self>
-				<table style="background:transparent;border:0px;">
-					<tr>
-						<td align=right style="background:transparent;border:0px;float:left;">
-							<input type=text readonly name=arrivo class=mac id="datepicker" size=8 onchange="javascript:cambiadata();" value=02/06/2022 style="border-radius:40px;padding:10px;padding-left:80px;float:left;background:white url('./images/dal.png') top left no-repeat;">
-							<input type=hidden readonly name=partenza class=mac id="datepicker2" size=8 value=02/06/2022 style="float:left;border-radius:40px;padding:10px;background:white url('./images/al.png') top left no-repeat;">
-							<tr>
-								<td colspan=4 style="background:transparent;border:0px;">
-									<input type=checkbox name=gdpr id="myCheck" /><font style="color:blue;">Privacy art. 13 e 14 del GDPR - Regolamento UE 2016/679</font>
-									<br>
-									<input type=image id="checkMap" height=40px src="https://www.gorizianuoto.cloud/images/vai.png" /> </table>
-			</form>
-			<br>
-			<br>
-			<fieldset style="padding:20px;border-radius:15px 120px 15px 120px;">
-				<legend style="background:white;border-radius:60px;padding:20px;margin-left:-50px;font-family:arial;">VERIFICA PRENOTAZIONE</legend>
-				<form method=post action="./paypal/verificamail.php">
-					<input type=text name=lamail onchange="javascript:controllatesto(this);" style="margin-left:30px;float:left;border-radius:40px;padding:10px;padding-left:80px;background:white url('./images/emailinput.png') top left no-repeat; " />
-					<input type=image height=40px src="https://www.gorizianuoto.cloud/images/vai.png" /> </form>
-			</fieldset>
-		</fieldset>
-		<br>
+		<center>
+
+
+
+			<fieldset  style="width:80%;padding:20px;border-radius:6px;background:transparent url('images/frecce-destra.png')bottom right no-repeat;">
+					<legend style="background:white;border-radius:60px;padding:20px;margin-left:-50px;font-family:arial;" >PRENOTAZIONE ONLINE</LEGEND> 
+			  <form method=get action="{{ url('vistagiornoricercacliente') }}" id="submit-form" target=_self >
+				 <table style="background:transparent;border:0px;">
+				   <tr >
+				   <td align=right  style="background:transparent;border:0px;">
+				   <font style="float:right;" >DAL: </font>
+				   
+											 <td align=left style="background:transparent;border:0px;">
+													   <input type=date required name=arrivo  onchange="document.getElementById('partenza').value=this.value;" style="width:300px;height:50px;font-size:20px;"  value="2022-06-02" />
+											 
+				   
+					<tr >
+				   <td align=right  style="background:transparent;border:0px;">
+				   <font style="float:right;" >AL: </font>
+				   
+						   <td  align=left style="background:transparent;border:0px;">
+								 <input type=date  required name=partenza style="width:300px;height:50px;font-size:20px;" id=partenza  value="2022-06-02" />
+				   
+				   
+					<tr><td align=right  style="background:transparent;border:0px;">
+				   <font style="float:right;" ></font>
+				   
+						   <td  align=left style="background:transparent;border:0px;">
+							<br><select name=giornata  style="width:300px;height:50px;font-size:20px;" >
+								 <option value=1 >GIORNATA INTERA 9:00-18:00</option>
+								 <option value=2 >MATTINA 9:00-13:00</option>
+								 <option value=3 >POMERIGGIO 13:30-18:00</option>
+						   </select>
+						   </center>
+				   
+				   <tr><td style="background:transparent;border:0px;height:50px;">&nbsp;
+				  
+				   <tr><td style="background:transparent;border:0px;"> 
+				  <input type=checkbox name="gdpr" id="myCheck" required style="width:30px;height:30px;float:right;" />
+				   <td colspan=3 style="background:transparent;border:0px;">
+				   <font style="color:blue;font-size:16px;color:grey;font-family:'Arial';">
+				   <a href=https://www.olimpiasport.it/privacy-policy/ target=_blank 
+					 style="text-decoration:none;color:grey;" >Ho letto ed accetto il regolamento prenotazioni on line e l'informativa sulla privacy,
+					 <br>ed acconsento al trattamento 
+					 dei dati personali.
+					</a></font>
+				  
+				  
+				  
+				  <tr><td colspan=3 >
+				  <font style="color:blue;font-size:16px;color:grey;font-family:'Arial';">
+				   <a href="#" target=_blank 
+					 style="text-decoration:none;color:grey;" ><center>Leggi l'informativa sulla Privacy</center></a></font>
+				  
+				  
+				  
+				  <tr><td colspan=4 style="background:transparent;border:0px;">
+				   <br> <br><br><center><a href=# id="checkMap" 
+												 style="text-decoration:none;background:#3A8DD1;font-size:20px;color:white;border-radius:10px;padding:15px;">PRENOTA ONLINE</a> 
+			   
+				</table>
+			   </form>
+			   
+			  
+			   <br>
+	</fieldset> 
     </center>
 
 	<script>
