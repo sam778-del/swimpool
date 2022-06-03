@@ -60,32 +60,7 @@
                     $daterange = new \DatePeriod($begin, $interval ,$end);
                 @endphp
 
-                {{-- @foreach (json_decode($data['map']) as $key => $item)
-                    @php
-                        $accessory = \App\Models\Accesory::find($_GET['accesory_id'][$key]);
 
-                        $priceType = $_GET['price_type'];
-                        if($accessory)
-                        {
-                            $accessoryAmount = $accessory->amount;
-                        }else{
-                            $accessoryAmount = 0;
-                        }
-
-                        if($priceType == 1)
-                        {
-                            $price = $item->maps->full_day_price + $accessoryAmount;
-                        }
-                        else if($priceType == 2){
-                            $price = $item->maps->morning_price + $accessoryAmount;
-                        }
-                        else if($priceType == 3){
-                            $price = $item->maps->afternoon_price + $accessoryAmount;
-                        }
-
-                        $total_price += $price;
-                    @endphp
-                @endforeach --}}
                 <?php $final_amount = 0 ?>
                 @foreach($daterange as $date)
                     @php
@@ -134,7 +109,7 @@
                                     $final_amount += $price;
                                 @endphp
                                     <tr>
-                                        <td style=padding:20px;><img src="{{ asset('images/ico-lettino.png') }}" style=width:30px; /> {{ $item->type }} {{ $item->lettini_number }}</td>
+                                        <td style=padding:20px;><img src="{{ asset('images/ico-lettino.png') }}" style=width:30px; /> {{ $item->type }} {{ $item->lettini_number }} {{ !empty($accessory->name) ? 'Con '.$accessory->name  : '' }}</td>
                                         <td style=padding:20px; >&euro; {{ $price }}</td>
                                     </tr>
                                 @endforeach
@@ -171,7 +146,7 @@
                                     $final_amount += $price;
                                 @endphp
                                     <tr>
-                                        <td style=padding:20px;><img src="{{ asset('images/ico-lettino.png') }}" style=width:30px; /> {{ $item->type }} {{ $item->lettini_number }}</td>
+                                        <td style=padding:20px;><img src="{{ asset('images/ico-lettino.png') }}" style=width:30px; /> {{ $item->type }} {{ $item->lettini_number }} {{ !empty($accessory->name) ? 'Con '.$accessory->name  : '' }}</td>
                                         <td style=padding:20px; >&euro; {{ $price }}</td>
                                     </tr>
                                 @endforeach
@@ -208,7 +183,7 @@
                                     $final_amount += $price;
                                 @endphp
                                     <tr>
-                                        <td style=padding:20px;><img src="{{ asset('images/ico-lettino.png') }}" style=width:30px; /> {{ $item->type }} {{ $item->lettini_number }}</td>
+                                        <td style=padding:20px;><img src="{{ asset('images/ico-lettino.png') }}" style=width:30px; /> {{ $item->type }} {{ $item->lettini_number }} {{ !empty($accessory->name) ? 'Con '.$accessory->name  : '' }}</td>
                                         <td style=padding:20px; >&euro; {{ $price }}</td>
                                     </tr>
                                 @endforeach
@@ -221,7 +196,7 @@
                 </tr>
             </table>
             <br>
-            <a class="btn btn-primary" href="{{ route('stripe.login') }}">Pay With Stripe</a>
+            <a class="btn btn-primary" href="{{ route('stripe.payment') }}?accesory_id={{ json_encode($_GET['accesory_id']) }}&numerodipersone={{ $_GET['numerodipersone'] }}&price_type={{ $_GET['price_type'] }}&map_id={{ json_encode($_GET['map_id']) }}&from={{ $_GET['from'] }}&to={{ $_GET['to'] }}&final_amount={{ $final_amount }}">Pay With Stripe</a>
         </fieldset>
 </body>
 </html>

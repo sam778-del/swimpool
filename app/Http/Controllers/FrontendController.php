@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Map;
+use Session;
+use Stripe;
 
 class FrontendController extends Controller
 {
@@ -37,5 +39,26 @@ class FrontendController extends Controller
         $data['map'] = Map::whereIn('id', json_decode($request->map_id))->with('maps')->get();
         return view('front.calculation', compact('data'));
         //return $data['map'][0]['maps']->morning_price;
+    }
+
+    public function stripePayment(Request $request)
+    {
+        return view('front.stripe');
+        //return $request->all();
+    }
+
+    public function stripePost(Request $request)
+    {
+        Stripe\Stripe::setApiKey(env('STRIPE_SECRET'));
+        Stripe\Charge::create ([
+                "amount" => 100 * 100,
+                "currency" => "usd",
+                "source" => $request->stripeToken,
+                "description" => "This payment is tested purpose phpcodingstuff.com"
+        ]);
+   
+        Session::flash('success', 'Payment successful!');
+           
+        return back();
     }
 }

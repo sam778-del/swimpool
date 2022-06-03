@@ -49,5 +49,5 @@ Route::get('vistagiornoricercacliente', [FrontendController::class, 'showMap']);
 Route::get('aggiungiprenotazione1bisdaombrellonecliente', [FrontendController::class, 'insertMap']);
 Route::get('calcolaprezzocliente', [FrontendController::class, 'calculationMap']);
 
-Route::get('stripe-login', [LoginController::class, 'stripeLogin'])->name('stripe.login');
+Route::get('stripe-payment', [FrontendController::class, 'stripePayment'])->name('stripe.payment');
 
