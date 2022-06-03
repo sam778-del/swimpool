@@ -27,13 +27,13 @@ class FrontendController extends Controller
         }else{
             return redirect()->back()->with('error', __('Nessun dato selezionato'));
         }
-    } 
+    }
 
     public function calculationMap(Request $request)
     {
         $data = [];
         $data['start_date'] = date('d/m/Y', strtotime($request->from));
-        $data['end_date']   = $request->to;
+        $data['end_date']   = date('d/m/Y', strtotime($request->to));
         $data['map'] = Map::whereIn('id', json_decode($request->map_id))->with('maps')->get();
         return view('front.calculation', compact('data'));
         //return $data['map'][0]['maps']->morning_price;

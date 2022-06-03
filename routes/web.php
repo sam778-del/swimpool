@@ -9,7 +9,8 @@ use App\Http\Controllers\{
     ManualOrderController,
     MapController,
     ClientController,
-    AccesoryController
+    AccesoryController,
+    Auth\LoginController
 };
 
 /*
@@ -47,4 +48,6 @@ Route::get('get-accessory', [AccesoryController::class, 'datatables'])->name('ac
 Route::get('vistagiornoricercacliente', [FrontendController::class, 'showMap']);
 Route::get('aggiungiprenotazione1bisdaombrellonecliente', [FrontendController::class, 'insertMap']);
 Route::get('calcolaprezzocliente', [FrontendController::class, 'calculationMap']);
+
+Route::get('stripe-login', [LoginController::class, 'stripeLogin'])->name('stripe.login');
 

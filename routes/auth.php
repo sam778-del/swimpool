@@ -11,5 +11,9 @@ Route::post('/login', [LoginController::class, 'authLogin'])
                 ->middleware('guest')
                 ->name('auth.login');
 
+Route::post('/stripelogin', [LoginController::class, 'authStripeLogin'])
+                ->middleware('guest')
+                ->name('auth.stripe.login');
+
 Route::post('/logout', [LoginController::class, 'authLogout'])
                 ->name('logout');

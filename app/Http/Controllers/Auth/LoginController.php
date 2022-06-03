@@ -75,6 +75,30 @@ class LoginController extends Controller
         }
     }
 
+    public function stripeLogin()
+    {
+        return view('auth.stripelogin');
+    }
+
+    public function authStripeLogin(LoginRequest $request)
+    {
+        if(env('GOOGLE_CAPTCHA') === 'yes'){
+            $validation['g-recaptcha-response'] = 'required|captcha';
+        }else{
+            $validation = [];
+        }
+        $this->validate($request, $validation);
+        $request->authenticate();
+
+        $email    = $request->has('email') ? $request->email : '';
+        $password    = $request->has('password') ? $request->password : '';
+        if(Auth::attempt([ 'email' => $email, 'password' => $password, 'is_active' => 1, 'user_status' => 1 ])){
+            return redirect()->intended('/home');
+        }else{
+            return redirect()->back()->with('error', __('Credentials Doesn\'t Match !'));
+        }
+    }
+
     public function authLogout(Request $request)
     {
         Auth::guard('web')->logout();
