@@ -50,4 +50,5 @@ Route::get('aggiungiprenotazione1bisdaombrellonecliente', [FrontendController::c
 Route::get('calcolaprezzocliente', [FrontendController::class, 'calculationMap']);
 
 Route::get('stripe-payment', [FrontendController::class, 'stripePayment'])->name('stripe.payment');
+Route::post('make-payment', [FrontendController::class, 'makePayment'])->name('make.payment');
 

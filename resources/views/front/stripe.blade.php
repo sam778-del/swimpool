@@ -17,9 +17,13 @@
          display: table-row;
          }
          .display-td {
-         display: table-cell;
-         vertical-align: middle;
-         width: 61%;
+            display: table-cell;
+            vertical-align: middle;
+            width: 61%;
+         }
+
+         .InputElement {
+            height: 65px;
          }
       </style>
    </head>
@@ -32,15 +36,9 @@
                 <div class="col-md-6 col-md-offset-3">
                 <div class="panel panel-default credit-card-box">
                     <div class="panel-body">
-                        @if (Session::has('success'))
-                        <div class="alert alert-success text-center">
-                            <a href="#" class="close" data-dismiss="alert" aria-label="close">×</a>
-                            <p>{{ Session::get('success') }}</p>
-                        </div>
-                        @endif
                         <form
                             role="form"
-                            action=""
+                            action="{{ route('make.payment') }}"
                             method="post"
                             class="require-validation"
                             data-cc-on-file="false"
@@ -49,45 +47,40 @@
                             @csrf
                             <div class='form-row row'>
                                 <div class='col-xs-12 form-group required'>
-                                    <label class='control-label'>Name on Card</label> <input
-                                        class='form-control' size='4' type='text'>
+                                    <label class='control-label'>Customer Name</label>
+                                    <input class='form-control' name="customer_name" size='8' type='text'>
                                 </div>
                             </div>
                             <div class='form-row row'>
                                 <div class='col-xs-12 form-group required'>
-                                    <label class='control-label'>Card Number</label> <input
-                                        autocomplete='off' class='form-control card-number' size='20'
-                                        type='text'>
+                                    <label class='control-label'>Customer Email</label>
+                                    <input class='form-control' name="customer_email" size='4' type='email'>
                                 </div>
                             </div>
                             <div class='form-row row'>
-                                <div class='col-xs-12 col-md-4 form-group cvc required'>
-                                    <label class='control-label'>CVC</label> <input autocomplete='off'
-                                        class='form-control card-cvc' placeholder='ex. 311' size='4'
-                                        type='text'>
-                                </div>
-                            <div class='col-xs-12 col-md-4 form-group expiration required'>
-                                <label class='control-label'>Expiration Month</label> <input
-                                    class='form-control card-expiry-month' placeholder='MM' size='2'
-                                    type='text'>
-                            </div>
-                            <div class='col-xs-12 col-md-4 form-group expiration required'>
-                                <label class='control-label'>Expiration Year</label> <input
-                                    class='form-control card-expiry-year' placeholder='YYYY' size='4'
-                                    type='text'>
-                            </div>
-                            </div>
-                            <div class='form-row row'>
-                            <div class='col-md-12 error form-group hide'>
-                                <div class='alert-danger alert'>Please correct the errors and try
-                                    again.
+                                <div class='col-xs-12 form-group required'>
+                                    <label class='control-label'>Mobile Number</label>
+                                    <input class='form-control' name="mobile_number" size='4' type='number'>
                                 </div>
                             </div>
+                            <div class="form-group">
+                                <label for="card-element">Credit or debit card</label>
+                                <div id="card-element" class="form-control" style='height: 2.4em; padding-top: .7em;'>
+                                  <!-- A Stripe Element will be inserted here. -->
+                                </div>
+                                <div id="card-errors" role="alert"></div>
                             </div>
+                            <input type="hidden" name="accessory_id" value="{{ $_GET['accesory_id'] }}" />
+                            <input type="hidden" name="numerodipersone" value="{{ $_GET['numerodipersone'] }}" />
+                            <input type="hidden" name="price_type" value="{{ $_GET['price_type'] }}" />
+                            <input type="hidden" name="map_id" value="{{ $_GET['map_id'] }}" />
+                            <input type="hidden" name="from" value="{{ $_GET['from'] }}" />
+                            <input type="hidden" name="to" value="{{ $_GET['to'] }}" />
+                            <input type="hidden" name="final_amount" value="{{ $_GET['final_amount'] }}" />
                             <div class="row">
-                            <div class="col-xs-12">
-                                <button class="btn btn-primary btn-lg btn-block" type="submit">Pay Now (&euro;{{ number_format($_GET['final_amount'], 2) }})</button>
-                            </div>
+                                <div class="col-xs-12">
+                                    <button class="btn btn-primary btn-lg btn-block" type="submit">Pay Now (&euro;{{ number_format($_GET['final_amount'], 2) }})</button>
+                                </div>
                             </div>
                         </form>
                     </div>
@@ -97,54 +90,69 @@
          </div>
       </div>
    </body>
-   <script type="text/javascript" src="https://js.stripe.com/v2/"></script>
+   <script src="https://js.stripe.com/v3/"></script>
    <script type="text/javascript">
       $(function() {
-        var $form = $(".require-validation");
-        $('form.require-validation').bind('submit', function(e) {
-            var $form = $(".require-validation"),
-                inputSelector = ['input[type=email]', 'input[type=password]',
-                    'input[type=text]', 'input[type=file]',
-                    'textarea'
-                ].join(', '),
-                $inputs = $form.find('.required').find(inputSelector),
-                $errorMessage = $form.find('div.error'),
-                valid = true;
-            $errorMessage.addClass('hide');
-            $('.has-error').removeClass('has-error');
-            $inputs.each(function(i, el) {
-                var $input = $(el);
-                if ($input.val() === '') {
-                    $input.parent().addClass('has-error');
-                    $errorMessage.removeClass('hide');
-                    e.preventDefault();
+        var stripe = Stripe('{{ env('STRIPE_KEY') }}');
+        var elements = stripe.elements();
+
+        // Custom styling can be passed to options when creating an Element.
+        var style = {
+            base: {
+                // Add your base input styles here. For example:
+                fontSize: '16px',
+                color: '#32325d',
+            },
+        };
+
+        // Create an instance of the card Element.
+        var card = elements.create('card', {style: style});
+
+        // Add an instance of the card Element into the `card-element` <div>.
+        card.mount('#card-element');
+
+        // Create a token or display an error when the form is submitted.
+        var form = document.getElementById('payment-form');
+        form.addEventListener('submit', function (event) {
+            event.preventDefault();
+
+            stripe.createToken(card).then(function (result) {
+                if (result.error) {
+                    // $("#card-errors").html(result.error.message);
+                    //show_toastr('Error', result.error.message, 'error');
+                    toastr.error("{{__('Error') }}", result.error.message, 'error');
+
+                } else {
+                    // Send the token to your server.
+                    $('button[type="submit"]').attr('disabled', 'disabled');
+                    stripeTokenHandler(result.token);
                 }
             });
-            if (!$form.data('cc-on-file')) {
-                e.preventDefault();
-                Stripe.setPublishableKey($form.data('stripe-publishable-key'));
-                Stripe.createToken({
-                    number: $('.card-number').val(),
-                    cvc: $('.card-cvc').val(),
-                    exp_month: $('.card-expiry-month').val(),
-                    exp_year: $('.card-expiry-year').val()
-                }, stripeResponseHandler);
-            }
         });
-        function stripeResponseHandler(status, response) {
-            if (response.error) {
-                $('.error')
-                    .removeClass('hide')
-                    .find('.alert')
-                    .text(response.error.message);
-            } else {
-                /* token contains id, last4, and card type */
-                var token = response['id'];
-                $form.find('input[type=text]').empty();
-                $form.append("<input type='hidden' name='stripeToken' value='" + token + "'/>");
-                $form.get(0).submit();
-            }
+
+        function stripeTokenHandler(token) {
+            // Insert the token ID into the form so it gets submitted to the server
+            var form = document.getElementById('payment-form');
+            var hiddenInput = document.createElement('input');
+            hiddenInput.setAttribute('type', 'hidden');
+            hiddenInput.setAttribute('name', 'stripeToken');
+            hiddenInput.setAttribute('value', token.id);
+            form.appendChild(hiddenInput);
+
+            // Submit the form
+            form.submit();
         }
     });
    </script>
+    <script src="{{ asset('/bundles/toastr.min.js') }}"></script>
+    @if(Session::has('success'))
+    <script>
+        toastr.success("{{__('Success') }}", "{!! session('success') !!}", 'success');
+    </script>
+    @endif
+    @if(Session::has('error'))
+        <script>
+            toastr.error("{{__('Error') }}", "{!! session('error') !!}", 'error');
+        </script>
+    @endif
 </html>

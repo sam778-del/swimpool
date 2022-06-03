@@ -47,18 +47,36 @@ class FrontendController extends Controller
         //return $request->all();
     }
 
-    public function stripePost(Request $request)
+    public function makePayment(Request $request)
     {
-        Stripe\Stripe::setApiKey(env('STRIPE_SECRET'));
-        Stripe\Charge::create ([
-                "amount" => 100 * 100,
-                "currency" => "usd",
-                "source" => $request->stripeToken,
-                "description" => "This payment is tested purpose phpcodingstuff.com"
-        ]);
-   
-        Session::flash('success', 'Payment successful!');
-           
-        return back();
+        try {
+            Stripe\Stripe::setApiKey(env('STRIPE_SECRET'));
+            $data = Stripe\Charge::create (
+                [
+                    "amount" =>  $request->final_amount,
+                    "currency" => "eur",
+                    "source" => $request->stripeToken,
+                    "description" => "",
+                    "metadata" => [
+                        "accessory" => $request->accessory_id,
+                        "numerodipersone" => $request->numerodipersone,
+                        "price_type" => $request->price_type,
+                        "maps" => json_decode($request->map_id),
+                        "from" => $request->from,
+                        "to" => $request->to
+                    ]
+                ]
+            );
+
+            if($data['amount_refunded'] == 0 && empty($data['failure_code']) && $data['paid'] == 1 && $data['captured'] == 1 && $data['status'] == 'succeeded')
+            {
+                $maps = Map::whereIn('id', json_decode($data["metadata"]["maps"]))->with('maps')->get();
+                return $maps;
+            }else{
+                return redirect()->back()->with('error', __('Payment cannot be processed'));
+            }
+        } catch (\Exception $e) {
+            return redirect()->back()->with('error', $e->getMessage());
+        }
     }
 }
