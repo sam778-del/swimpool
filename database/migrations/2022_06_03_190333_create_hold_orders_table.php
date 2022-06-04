@@ -16,6 +16,7 @@ class CreateHoldOrdersTable extends Migration
         Schema::create('hold_orders', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->integer('map_id')->unsigned()->nullable();
+            $table->integer('order_id')->unsigned()->nullable();
             $table->date('booked_date')->nullable();
             $table->integer('accessory_id')->unsigned()->nullable();
             $table->bigInteger('persons')->nullable()->default(1);

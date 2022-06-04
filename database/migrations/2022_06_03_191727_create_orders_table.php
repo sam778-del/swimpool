@@ -23,6 +23,7 @@ class CreateOrdersTable extends Migration
             $table->string('card_exp_month',10)->nullable();
             $table->string('card_exp_year',10)->nullable();
             $table->integer('map_id')->default(0);
+            $table->float('amount')->nullable()->default(0.00);
             $table->timestamps();
         });
     }

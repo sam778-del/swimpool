@@ -196,7 +196,7 @@
                 </tr>
             </table>
             <br>
-            <a class="btn btn-primary" href="{{ route('stripe.payment') }}?accesory_id={{ json_encode($_GET['accesory_id']) }}&numerodipersone={{ $_GET['numerodipersone'] }}&price_type={{ $_GET['price_type'] }}&map_id={{ json_encode($_GET['map_id']) }}&from={{ $_GET['from'] }}&to={{ $_GET['to'] }}&final_amount={{ $final_amount }}">Pay With Stripe</a>
+            <a class="btn btn-primary" href="{{ route('stripe.payment') }}?accesory_id={{ implode(",",$_GET['accesory_id']) }}&numerodipersone={{ $_GET['numerodipersone'] }}&price_type={{ $_GET['price_type'] }}&map_id={{ json_encode($_GET['map_id']) }}&from={{ $_GET['from'] }}&to={{ $_GET['to'] }}&final_amount={{ $final_amount }}">Pay With Stripe</a>
         </fieldset>
 </body>
 </html>
