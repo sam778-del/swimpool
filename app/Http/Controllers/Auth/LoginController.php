@@ -68,7 +68,7 @@ class LoginController extends Controller
 
         $email    = $request->has('email') ? $request->email : '';
         $password    = $request->has('password') ? $request->password : '';
-        if(Auth::attempt([ 'email' => $email, 'password' => $password, 'is_active' => 1, 'user_status' => 1 ])){
+        if(Auth::attempt([ 'email' => $email, 'password' => $password])){
             return redirect()->intended('/home');
         }else{
             return redirect()->back()->with('error', __('Credentials Doesn\'t Match !'));

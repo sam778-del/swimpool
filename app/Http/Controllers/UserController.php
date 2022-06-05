@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 use Yajra\DataTables\DataTables;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Hash;
+use Spatie\Permission\Models\Role;
+use Spatie\Permission\Models\Permission;
 use Validator;
 use App\Models\User;
 use Auth;
@@ -13,9 +15,12 @@ use Auth;
 
 class UserController extends Controller
 {
+    public $operatorPermission;
+
     public function __construct()
     {
-       $this->middleware('auth'); 
+       $this->middleware('auth');
+       $this->operatorPermission = User::operatorPermission();
     }
 
     public function datatables(Request $request)
@@ -26,7 +31,7 @@ class UserController extends Controller
                             ->orWhere('is_active', '=', 1);
                     })->get();
         if($request->ajax())
-        {   
+        {
             return Datatables::of($operator)
                             ->editColumn('avatar', function (User $operator) {
                                 $avatar = !empty($operator->avatar) ? asset(Storage::url($operator->avatar)) : asset('images/avatar.png');
@@ -88,10 +93,22 @@ class UserController extends Controller
             $operator               = new User();
             $operator->name         = $request->input('operator_name');
             $operator->email        = $request->input('operator_email');
-            $operator->password     = Hash::make($request->input('password')); 
+            $operator->password     = $request->input('password');
             $operator->is_active    = 1;
             $operator->parent_id    = $request->input('parent_id');
             $operator->save();
+
+            if($operator->parent_id == 0)
+            {
+                $role_r = Role::where('id', '=', 1)->firstOrFail();
+                $operator->assignRole($role_r);
+            }
+            else
+            {
+                $role_r = Role::where('id', '=', 2)->firstOrFail();
+                $role_r->givePermissionTo($operatorPermission);
+                $operator->assignRole($role_r);
+            }
 
             return redirect()->route("operator.index")->with("success", __("Informazioni create con successo."));
         }else{
@@ -105,7 +122,7 @@ class UserController extends Controller
         {
             return view('operator.edit', compact('operator'));
         }else{
-            return redirect()->back()->with("error", __("Permesso negato.")); 
+            return redirect()->back()->with("error", __("Permesso negato."));
         }
     }
 
@@ -127,7 +144,7 @@ class UserController extends Controller
 
             $operator->name         = $request->input('operator_name');
             $operator->email        = $request->input('operator_email');
-            $operator->password     = Hash::make($request->input('password')); 
+            $operator->password     = $request->input('password');
             $operator->is_active    = 1;
             $operator->parent_id    = $request->input('parent_id');
             $operator->save();
@@ -142,8 +159,7 @@ class UserController extends Controller
     {
         if(Auth::user()->can('Delete User'))
         {
-            $operator->is_active = 0;
-            $operator->save();
+            $operator->delete();
             return response()->json(["status" => true, "msg" => __("Informazioni modifica successo")], 200);
         }else{
             return response()->json(["status" => false, "msg" => __("Permesso negato.")], 200);
