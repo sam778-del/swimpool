@@ -13,14 +13,14 @@ use App\Models\User;
 use Auth;
 
 
-class UserController extends Controller
+class UsersController extends Controller
 {
-    public $operatorPermission;
+    //public $operatorPermission;
 
     public function __construct()
     {
        $this->middleware('auth');
-       $this->operatorPermission = User::operatorPermission();
+       //$this->operatorPermission = User::operatorPermission();
     }
 
     public function datatables(Request $request)
@@ -81,7 +81,7 @@ class UserController extends Controller
             $validator = Validator::make($request->all(), [
                 'operator_name' => 'required|max:100',
                 'operator_email' => 'required|email|unique:users,email',
-                'operator_password' => 'required|min:6|regex:/^.*(?=.{3,})(?=.*[a-zA-Z])(?=.*[0-9])(?=.*[\d\x])(?=.*[!$#%]).*$/',
+                'operator_password' => 'required|min:6',
                 'confirm_operator_password' => 'required_with:operator_password|same:operator_password|min:6'
             ]);
 
@@ -93,20 +93,20 @@ class UserController extends Controller
             $operator               = new User();
             $operator->name         = $request->input('operator_name');
             $operator->email        = $request->input('operator_email');
-            $operator->password     = $request->input('password');
+            $operator->password     = $request->input('operator_password');
             $operator->is_active    = 1;
             $operator->parent_id    = $request->input('parent_id');
             $operator->save();
 
             if($operator->parent_id == 0)
             {
-                $role_r = Role::where('id', '=', 1)->firstOrFail();
+                $role_r = Role::where('name', '=', 'Admin')->firstOrFail();
                 $operator->assignRole($role_r);
             }
             else
             {
-                $role_r = Role::where('id', '=', 2)->firstOrFail();
-                $role_r->givePermissionTo($operatorPermission);
+                $role_r = Role::where('name', '=', 'Operator')->firstOrFail();
+                $role_r->givePermissionTo(User::operatorPermission());
                 $operator->assignRole($role_r);
             }
 
@@ -133,7 +133,7 @@ class UserController extends Controller
             $validator = Validator::make($request->all(), [
                 'operator_name' => 'required|max:100',
                 'operator_email' => 'required|email|unique:users,email,' . $operator->id. 'id',
-                'operator_password' => 'required|min:6|regex:/^.*(?=.{3,})(?=.*[a-zA-Z])(?=.*[0-9])(?=.*[\d\x])(?=.*[!$#%]).*$/',
+                'operator_password' => 'required|min:6',
                 'confirm_operator_password' => 'required_with:operator_password|same:operator_password|min:6'
             ]);
 
@@ -144,7 +144,7 @@ class UserController extends Controller
 
             $operator->name         = $request->input('operator_name');
             $operator->email        = $request->input('operator_email');
-            $operator->password     = $request->input('password');
+            $operator->password     = $request->input('operator_password');
             $operator->is_active    = 1;
             $operator->parent_id    = $request->input('parent_id');
             $operator->save();

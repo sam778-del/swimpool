@@ -23,7 +23,7 @@ body{font-family:"Raleway";}
 
 body {
   //background-color: #3e94ec;
-  background: #0099CC url(images/sfondocentrato.png) top right no-repeat; 
+  background: #0099CC; 
   font-family: "Raleway", helvetica, arial, sans-serif;
   font-size: 16px;
   font-weight: 400;

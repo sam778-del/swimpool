@@ -29,7 +29,6 @@ class MapController extends Controller
     {
         $validator      = Validator::make($request->all(), [
             'lettini_number' => 'required|numeric',
-            'lettini_price' => 'required|numeric',
             'morning_price' => 'required|numeric',
             'afternoon_price' => 'required|numeric',
             'full_day_price' => 'required|numeric',
@@ -46,7 +45,6 @@ class MapController extends Controller
 
         $map = Map::find($request->id);
         $map->lettini_number = $request->lettini_number;
-        $map->lettini_price    = $request->lettini_price;
         $map->save();
 
         TableMap::where('map_id', $map->id)->update([
@@ -64,7 +62,6 @@ class MapController extends Controller
     public function updateGazebo(Request $request)
     {
         $validator      = Validator::make($request->all(), [
-            'gazebo_number' => 'required|numeric',
             'gazebo_price' => 'required|numeric',
             'morning_price' => 'required|numeric',
             'afternoon_price' => 'required|numeric',
@@ -81,8 +78,7 @@ class MapController extends Controller
         }
 
         $map = Map::find($request->id);
-        $map->gazebo_number = $request->gazebo_number;
-        $map->gazebo_price    = $request->gazebo_price;
+        $map->lettini_number = $request->lettini_number;
         $map->save();
 
         TableMap::where('map_id', $map->id)->update([

@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\{
     HomeController,
     FrontendController,
-    UserController,
+    UsersController,
     OrderController,
     ManualOrderController,
     MapController,
@@ -30,9 +30,14 @@ Route::get('/home', [HomeController::class, 'index'])->name('home')->middleware(
 
 Route::get('/', [FrontendController::class, 'index'])->name('front_site');
 
-Route::resource('operator', UserController::class)->middleware(['auth']);
-Route::get('get-operator', [UserController::class, 'datatables'])->name('operator.datatables');
+Route::resource('operator', UsersController::class)->middleware(['auth']);
+
+Route::get('operators/list', [UsersController::class, 'index'])->name('operators.index')->middleware(['auth']);
+
+Route::get('get-operator', [UsersController::class, 'datatables'])->name('operator.datatables');
+
 Route::resource('client', ClientController::class)->middleware(['auth']);
+
 Route::get('custpmer-datatables', [ClientController::class, 'datatables'])->name('client.datatables')->middleware(['auth']);
 
 Route::resource('order', OrderController::class)->middleware(['auth']);

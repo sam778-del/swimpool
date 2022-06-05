@@ -35,7 +35,7 @@
                             </div>
                          </div>
                          <div class="list-group m-2 mb-3">
-                            <a class="list-group-item list-group-item-action border-0" href="page-profile.html"><i class="w30 fa fa-user"></i>{{ __('Profile & account') }}</a>
+                            <a class="list-group-item list-group-item-action border-0" href="{{ route('operator.edit', Auth::user()->id) }}"><i class="w30 fa fa-user"></i>{{ __('Profile & account') }}</a>
                          </div>
                          <a href="javascript:void(0);" onclick="event.preventDefault(); document.getElementById('logout-form').submit();" class="btn bg-secondary text-light text-uppercase rounded-0">{{ __('Logout') }}</a>
                          {!! Form::open(["route" => ["logout"], "style" => "display:none", "method" => "POST", "id" => "logout-form"]) !!}
