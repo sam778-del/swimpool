@@ -1,13 +1,13 @@
 @extends('layouts.app')
 
-@section('page-title', __('Elenco operatori') )
+@section('page-title', __('Elenco cliente') )
 
 @section('page-toolbar')
 <div class="row mb-3 align-items-center">
     <div class="col">
        <ol class="breadcrumb bg-transparent mb-0">
           <li class="breadcrumb-item"><a class="text-secondary" href="{{ url("/home") }}">{{ __('Dashboard') }}</a></li>
-          <li class="breadcrumb-item active" aria-current="page">{{ __('Elenco operatori') }}</li>
+          <li class="breadcrumb-item active" aria-current="page">{{ __('Elenco cliente') }}</li>
        </ol>
     </div>
 </div>
@@ -19,10 +19,10 @@
     <div class="col col-3">
     </div>
     <div class="btn-group" role="group">
-        @can('Create User')
-            <a href="{{ route("operator.create") }}" class="btn btn-primary">
+        @can('Create Customer')
+            <a href="{{ route("client.create") }}" class="btn btn-primary">
                 <i class="bi bi-plus-lg"></i>
-                {{ __('Crea operatore') }}
+                {{ __('Crea cliente') }}
             </a>
         @endcan
     </div>
@@ -49,10 +49,12 @@
             <table id="table_list" class="table align-middle mb-0 card-table" cellspacing="0">
                 <thead>
                     <tr>
-                        <th>{{ __('Immagine dell\'operatore') }}</th>
-                        <th>{{ __('Nome operatore') }}</th>
-                        <th>{{ __('E-mail dell\'operatore') }}</th>
-                        <th class="text-center">{{ __('Tipo di operatore') }}</th>
+                        <th>{{ __('Customer Nome') }}</th>
+                        <th>{{ __('Customer Email') }}</th>
+                        <th>{{ __('Customer Telephone') }}</th>
+                        <th>{{ __('Residence') }}</th>
+                        <th>{{ __('Province') }}</th>
+                        <th class="text-center">{{ __('Report') }}</th>
                         <th>{{ __('Action') }}</th>
                     </tr>
                 </thead>
@@ -79,12 +81,14 @@
             "language": {
                 "url": "{{ asset('js/italian.json') }}"
             },
-            ajax: '{{ route('operator.datatables') }}',
+            ajax: '{{ route('client.datatables') }}',
             columns: [
-                { data: 'avatar', avatar: 'avatar', searchable: false, orderable: false },
-                { data: 'name', name: 'name' },
+                { data: 'customer_name', customer_name: 'customer_name', searchable: false, orderable: false },
                 { data: 'email', name: 'email' },
-                { data: 'type', type: 'type', searchable: false, orderable: false },
+                { data: 'mobile_number', name: 'mobile_number' },
+                { data: 'residence', name: 'residence' },
+                { data: 'province', name: 'province' },
+                { data: 'report', report: 'report', searchable: false, orderable: false },
                 { data: 'action', searchable: false, orderable: false }
             ],
             language : {

@@ -33,6 +33,8 @@ Route::get('/', [FrontendController::class, 'index'])->name('front_site');
 Route::resource('operator', UserController::class)->middleware(['auth']);
 Route::get('get-operator', [UserController::class, 'datatables'])->name('operator.datatables');
 Route::resource('client', ClientController::class)->middleware(['auth']);
+Route::get('custpmer-datatables', [ClientController::class, 'datatables'])->name('client.datatables')->middleware(['auth']);
+
 Route::resource('order', OrderController::class)->middleware(['auth']);
 Route::resource('maunal-order', ManualOrderController::class)->middleware(['auth']);
 Route::resource('table-map', MapController::class)->middleware(['auth']);

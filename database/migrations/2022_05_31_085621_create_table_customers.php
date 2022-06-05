@@ -13,8 +13,18 @@ class CreateTableCustomers extends Migration
      */
     public function up()
     {
-        Schema::create('table_customers', function (Blueprint $table) {
-            $table->id();
+        Schema::create('customers', function (Blueprint $table) {
+            $table->bigIncrements('id');
+            $table->string('first_name', 100)->nullable();
+            $table->string('last_name', 100)->nullable();
+            $table->string('email')->unique();
+            $table->string('mobile_number', 100)->unique()->nullable();
+            $table->longText('document')->nullable();
+            $table->longText('residence')->nullable();
+            $table->string('province', 100)->nullable();
+            $table->string('friend_group', 100)->nullable();
+            $table->string('guy', 100)->nullable();
+            $table->string('number_of_children', 100)->nullable();
             $table->timestamps();
         });
     }
@@ -26,6 +36,6 @@ class CreateTableCustomers extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('table_customers');
+        Schema::dropIfExists('customers');
     }
 }

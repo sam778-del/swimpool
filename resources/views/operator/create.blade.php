@@ -26,7 +26,7 @@
             <div class="card-body">
                 {!! Form::open(["route" => ["operator.store"], "method" => "POST", "id" => "submit-form", "enctype" => "multipart/form-data"]) !!}
                 <div class="row mb-4">
-                    <label class="col-xl-2 col-sm-3 col-form-label">{{ __('Customer Name') }} *</label>
+                    <label class="col-xl-2 col-sm-3 col-form-label">{{ __('Operator Name') }} *</label>
                     <div class="col-xl-8 col-sm-9">
                         {!! Form::text('operator_name', null, ["class" => "form-control form-control-lg", "placeholder" => __('Operator Name')]) !!}
                     </div>

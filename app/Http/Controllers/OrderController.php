@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Yajra\DataTables\DataTables;
 use App\Models\Order;
+use App\Models\HoldOrder;
 use Auth;
 
 class OrderController extends Controller
@@ -46,8 +47,14 @@ class OrderController extends Controller
         }
     }
 
-    public function show()
+    public function show(Order $order)
     {
-
+        if(Auth::user()->can('Manage Order'))
+        {
+            $data['maps'] = HoldOrder::where('order_id', $order->id)->get();
+            return view('order.show', compact('data', 'order'));
+        }else{
+            return redirect()->back()->with('error', __('Permesso negato.'));
+        }
     }
 }
