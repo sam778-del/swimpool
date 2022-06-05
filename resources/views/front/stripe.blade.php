@@ -48,19 +48,19 @@
                             <div class='form-row row'>
                                 <div class='col-xs-12 form-group required'>
                                     <label class='control-label'>Customer Name</label>
-                                    <input class='form-control' name="customer_name" size='8' type='text'>
+                                    <input class='form-control' name="name" size='8' type='text' required>
                                 </div>
                             </div>
                             <div class='form-row row'>
                                 <div class='col-xs-12 form-group required'>
                                     <label class='control-label'>Customer Email</label>
-                                    <input class='form-control' name="customer_email" size='4' type='email'>
+                                    <input class='form-control' name="email" size='4' type='email' required>
                                 </div>
                             </div>
                             <div class='form-row row'>
                                 <div class='col-xs-12 form-group required'>
                                     <label class='control-label'>Mobile Number</label>
-                                    <input class='form-control' name="mobile_number" size='4' type='number'>
+                                    <input class='form-control' name="mobile_number" size='4' type='number' required>
                                 </div>
                             </div>
                             <div class="form-group">
@@ -73,6 +73,7 @@
                             <input type="hidden" name="accessory_id" value="{{ $_GET['accesory_id'] }}" />
                             <input type="hidden" name="numerodipersone" value="{{ $_GET['numerodipersone'] }}" />
                             <input type="hidden" name="price_type" value="{{ $_GET['price_type'] }}" />
+                            <input type="hidden" name="final_amount" value="{{ $_GET['final_amount'] }}" />
                             <input type="hidden" name="map_id" value="{{ $_GET['map_id'] }}" />
                             <input type="hidden" name="from" value="{{ $_GET['from'] }}" />
                             <input type="hidden" name="to" value="{{ $_GET['to'] }}" />

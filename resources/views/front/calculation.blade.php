@@ -49,7 +49,7 @@
   <center>
     <img src=https://www.gorizianuoto.cloud/images/logo.png  /><center>
         <fieldset style="width:90%;border-radius:20px;">
-            <legend><h3>{{ $data['start_date'] }} - {{ date('d/m/Y', strtotime($data['end_date'])) }}</h3> </legend>
+            <legend><h3>{{ date('d/m/Y', strtotime($data['start_date'])) }} - {{ date('d/m/Y', strtotime($data['end_date'])) }}</h3> </legend>
             <table style=width:90%;>
                 @php
                     $total_price = 0;

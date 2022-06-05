@@ -52,3 +52,6 @@ Route::get('calcolaprezzocliente', [FrontendController::class, 'calculationMap']
 Route::get('stripe-payment', [FrontendController::class, 'stripePayment'])->name('stripe.payment');
 Route::post('make-payment', [FrontendController::class, 'makePayment'])->name('make.payment');
 
+Route::resource('order', OrderController::class)->middleware(['auth']);
+Route::get('get-order', [OrderController::class, 'datatables'])->name('order.datatables');
+

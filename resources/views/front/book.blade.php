@@ -102,28 +102,28 @@
 
 
 			<fieldset  style="width:80%;padding:20px;border-radius:6px;background:transparent url('images/frecce-destra.png')bottom right no-repeat;">
-					<legend style="background:white;border-radius:60px;padding:20px;margin-left:-50px;font-family:arial;" >PRENOTAZIONE ONLINE</LEGEND> 
+					<legend style="background:white;border-radius:60px;padding:20px;margin-left:-50px;font-family:arial;" >PRENOTAZIONE ONLINE</LEGEND>
 			  <form method=get action="{{ url('vistagiornoricercacliente') }}" id="submit-form" target=_self >
 				 <table style="background:transparent;border:0px;">
 				   <tr >
 				   <td align=right  style="background:transparent;border:0px;">
 				   <font style="float:right;" >DAL: </font>
-				   
+
 											 <td align=left style="background:transparent;border:0px;">
 													   <input type=date required name=arrivo  onchange="document.getElementById('partenza').value=this.value;" style="width:300px;height:50px;font-size:20px;"  value="2022-06-02" />
-											 
-				   
+
+
 					<tr >
 				   <td align=right  style="background:transparent;border:0px;">
 				   <font style="float:right;" >AL: </font>
-				   
+
 						   <td  align=left style="background:transparent;border:0px;">
 								 <input type=date  required name=partenza style="width:300px;height:50px;font-size:20px;" id=partenza  value="2022-06-02" />
-				   
-				   
+
+
 					<tr><td align=right  style="background:transparent;border:0px;">
 				   <font style="float:right;" ></font>
-				   
+
 						   <td  align=left style="background:transparent;border:0px;">
 							<br><select name=giornata  style="width:300px;height:50px;font-size:20px;" >
 								 <option value=1 >GIORNATA INTERA 9:00-18:00</option>
@@ -131,38 +131,38 @@
 								 <option value=3 >POMERIGGIO 13:30-18:00</option>
 						   </select>
 						   </center>
-				   
+
 				   <tr><td style="background:transparent;border:0px;height:50px;">&nbsp;
-				  
-				   <tr><td style="background:transparent;border:0px;"> 
+
+				   <tr><td style="background:transparent;border:0px;">
 				  <input type=checkbox name="gdpr" id="myCheck" required style="width:30px;height:30px;float:right;" />
 				   <td colspan=3 style="background:transparent;border:0px;">
 				   <font style="color:blue;font-size:16px;color:grey;font-family:'Arial';">
-				   <a href=https://www.olimpiasport.it/privacy-policy/ target=_blank 
+				   <a href=https://www.olimpiasport.it/privacy-policy/ target=_blank
 					 style="text-decoration:none;color:grey;" >Ho letto ed accetto il regolamento prenotazioni on line e l'informativa sulla privacy,
-					 <br>ed acconsento al trattamento 
+					 <br>ed acconsento al trattamento
 					 dei dati personali.
 					</a></font>
-				  
-				  
-				  
+
+
+
 				  <tr><td colspan=3 >
 				  <font style="color:blue;font-size:16px;color:grey;font-family:'Arial';">
-				   <a href="#" target=_blank 
+				   <a href="#" target=_blank
 					 style="text-decoration:none;color:grey;" ><center>Leggi l'informativa sulla Privacy</center></a></font>
-				  
-				  
-				  
+
+
+
 				  <tr><td colspan=4 style="background:transparent;border:0px;">
-				   <br> <br><br><center><a href=# id="checkMap" 
-												 style="text-decoration:none;background:#3A8DD1;font-size:20px;color:white;border-radius:10px;padding:15px;">PRENOTA ONLINE</a> 
-			   
+				   <br> <br><br><center><a href=# id="checkMap"
+												 style="text-decoration:none;background:#3A8DD1;font-size:20px;color:white;border-radius:10px;padding:15px;">PRENOTA ONLINE</a>
+
 				</table>
 			   </form>
-			   
-			  
+
+
 			   <br>
-	</fieldset> 
+	</fieldset>
     </center>
 
 	<script>
@@ -181,6 +181,17 @@
 			}
 		});
 	</script>
+    <script src="{{ asset('/bundles/toastr.min.js') }}"></script>
+    @if(Session::has('success'))
+    <script>
+        toastr.success("{{__('Success') }}", "{!! session('success') !!}", 'success');
+    </script>
+    @endif
+    @if(Session::has('error'))
+        <script>
+            toastr.error("{{__('Error') }}", "{!! session('error') !!}", 'error');
+        </script>
+    @endif
 </body>
 </html>
 
