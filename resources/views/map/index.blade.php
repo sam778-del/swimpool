@@ -56,6 +56,7 @@
                                                 <option value=-1 >-</option>
                                                 <option value=gazebo >G</option>
                                                 <option value=passerella >P</option>
+                                                <option value="beach">B</option>
                                             </select>
                                             <input type=image src="{{ asset('images/ok.png') }}" />
                                         {!! Form::close() !!}
@@ -71,11 +72,12 @@
                                                 <option value=-1 >-</option>
                                                 <option value=gazebo >G</option>
                                                 <option value=passerella >P</option>
+                                                <option value="beach">B</option>
                                             </select>
                                             <input type=image src="{{ asset('images/ok.png') }}" />
                                         {!! Form::close() !!}
                                     </td>
-                                @elseif($sp->type == '-1' || $sp->type == '-')
+                                @elseif($sp->type == '-1' || $sp->type == '-' || $sp->type == 'beach')
                                     <td style="background:#FFCC33;opacity:0.5">
                                         {!! Form::open(["route" => ["table-map.update", $sp->id], "method" => "PATCH"]) !!}
                                             <input  type=text style="background:#FFCC33;" name="nome" value="{{ $sp->spec_id }}" size=1 />
@@ -86,6 +88,7 @@
                                                 <option value=-1 >-</option>
                                                 <option value=gazebo >G</option>
                                                 <option value=passerella >P</option>
+                                                <option value="beach">B</option>
                                             </select>
                                             <input type=image src="{{ asset('images/ok.png') }}" />
                                         {!! Form::close() !!}
@@ -101,6 +104,7 @@
                                                 <option value=-1 >-</option>
                                                 <option value=gazebo >G</option>
                                                 <option value=passerella >P</option>
+                                                <option value="beach">B</option>
                                             </select>
                                             <input type=image src="{{ asset('images/ok.png') }}" />
                                         {!! Form::close() !!}
@@ -116,6 +120,7 @@
                                                 <option value=-1 >-</option>
                                                 <option value=gazebo >G</option>
                                                 <option value=passerella >P</option>
+                                                <option value="beach">B</option>
                                             </select>
                                             <input type=image src="{{ asset('images/ok.png') }}" />
                                         {!! Form::close() !!}

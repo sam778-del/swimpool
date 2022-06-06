@@ -108,7 +108,7 @@ class FrontendController extends Controller
             Stripe\Stripe::setApiKey(env('STRIPE_SECRET'));
             $data = Stripe\Charge::create (
                 [
-                    "amount" =>  $request->final_amount,
+                    "amount" =>  $request->final_amount * 100,
                     "currency" => "eur",
                     "source" => $request->stripeToken,
                     "description" => "",
@@ -183,10 +183,10 @@ class FrontendController extends Controller
                 if(!empty($user))
                 {
                     foreach ($user as $key => $us) {
-                        //Mail::to($us->email)->send(new OrderReceiveMail($orderID, $order->amount ));
+                        Mail::to($us->email)->send(new OrderReceiveMail($orderID, $order->amount ));
                     }
                 }
-                //Mail::to($data["metadata"]["email"])->send(new OrderReceiveMail($orderID, $amount));
+                Mail::to($data["metadata"]["email"])->send(new OrderReceiveMail($orderID, $amount));
                 return redirect()->intended('/')->with('success', __('Order Placed Succesfully!'));
             }else{
                 return redirect()->back()->with('error', __('Payment cannot be processed'));
