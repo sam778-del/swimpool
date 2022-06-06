@@ -15,12 +15,13 @@ class CreateMapsTable extends Migration
     {
         Schema::create('maps', function (Blueprint $table) {
             $table->bigIncrements('id');
+            $table->bigInteger('map_number')->nullable();
+            $table->float('morning_amount')->nullable()->default(0.00);
+            $table->float('afternoon_amount')->nullable()->default(0.00);
+            $table->float('fullday_amount')->nullable()->default(0.00);
             $table->string('type', 100)->nullable();
-            $table->string('lettini_number', 100)->nullable();
-            $table->string('gazebo_number', 100)->nullable();
-            $table->float('gazebo_price')->nullable()->default(0.00);
-            $table->string('position')->nullable();
-            $table->float('lettini_price')->nullable()->default(0.00);
+            $table->float('additional_amount')->nullable()->default(0.00);
+            $table->dateTime('amount_date')->nullable();
             $table->timestamps();
         });
     }

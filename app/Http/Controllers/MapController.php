@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Map;
-use App\Models\TableMap;
+use App\Models\Specification;
 use Validator;
 
 class MapController extends Controller
@@ -16,80 +16,39 @@ class MapController extends Controller
 
     public function index()
     {
-        return view('map.index');
+        $data = [
+            'row' => $this->getRow(),
+            'column' => $this->getColumn()
+        ];
+        return view('map.index', compact('data'));
     }
 
     public function show(Request $request)
     {
-        $map = Map::where('id', $request->id)->with('maps')->get();
         return response()->json($map, 200);
+    }
+
+    public function getRow()
+    {
+        return Specification::orderBy('id', 'ASC')->where('utility', 'row')->limit(19)->get();
+    }
+
+    public function getColumn()
+    {
+        return Specification::orderBy('id', 'ASC')->where('utility', 'column')->limit(10)->get();
     }
 
     public function update(Request $request)
     {
-        $validator      = Validator::make($request->all(), [
-            'lettini_number' => 'required|numeric',
-            'morning_price' => 'required|numeric',
-            'afternoon_price' => 'required|numeric',
-            'full_day_price' => 'required|numeric',
-            'saturday_price' => 'required|numeric',
-            'sunday_price' => 'required|numeric',
-            'low_summer_price' => 'required|numeric',
-            'high_summer_price' => 'required|numeric',
-        ]);
+        $specification          = Specification::findorfail($request->item_id);
+        $specification->spec_id = $request->nome;
+        $specification->type    = $request->type;
+        $specification->save();
 
-        if($validator->fails())
-        {
-            return redirect()->back()->with("error", $validator->errors()->first());
-        }
-
-        $map = Map::find($request->id);
-        $map->lettini_number = $request->lettini_number;
-        $map->save();
-
-        TableMap::where('map_id', $map->id)->update([
-            'morning_price' => $request->morning_price,
-            'afternoon_price' => $request->afternoon_price,
-            'full_day_price' => $request->full_day_price,
-            'saturday_price' => $request->saturday_price,
-            'sunday_price' => $request->sunday_price,
-            'low_summer_price' => $request->low_summer_price,
-            'hight_summer_price' => $request->high_summer_price,
-        ]);
-        return redirect()->back()->with("success", __("Informazioni create con successo."));
-    }
-
-    public function updateGazebo(Request $request)
-    {
-        $validator      = Validator::make($request->all(), [
-            'gazebo_price' => 'required|numeric',
-            'morning_price' => 'required|numeric',
-            'afternoon_price' => 'required|numeric',
-            'full_day_price' => 'required|numeric',
-            'saturday_price' => 'required|numeric',
-            'sunday_price' => 'required|numeric',
-            'low_summer_price' => 'required|numeric',
-            'high_summer_price' => 'required|numeric',
-        ]);
-
-        if($validator->fails())
-        {
-            return redirect()->back()->with("error", $validator->errors()->first());
-        }
-
-        $map = Map::find($request->id);
-        $map->lettini_number = $request->lettini_number;
-        $map->save();
-
-        TableMap::where('map_id', $map->id)->update([
-            'morning_price' => $request->morning_price,
-            'afternoon_price' => $request->afternoon_price,
-            'full_day_price' => $request->full_day_price,
-            'saturday_price' => $request->saturday_price,
-            'sunday_price' => $request->sunday_price,
-            'low_summer_price' => $request->low_summer_price,
-            'hight_summer_price' => $request->high_summer_price,
-        ]);
-        return redirect()->back()->with("success", __("Informazioni create con successo."));
+        $column = Specification::findorfail($request->column_id);
+        $column->spec_id = $request->nome;
+        $column->type = $request->type;
+        $column->save();
+        return redirect()->back();
     }
 }

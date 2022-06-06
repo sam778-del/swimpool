@@ -7,6 +7,7 @@ use App\Models\Map;
 use App\Models\HoldOrder;
 use App\Mail\OrderReceiveMail;
 use Illuminate\Support\Facades\Mail;
+use App\Models\Specification;
 use App\Models\Order;
 use App\Models\User;
 use Carbon\Carbon;
@@ -22,7 +23,11 @@ class FrontendController extends Controller
 
     public function showMap()
     {
-        return view('front.map');
+        $data = [
+            'row' => $this->getRow(),
+            'column' => $this->getColumn()
+        ];
+        return view('front.map', compact('data'));
     }
 
     public function insertMap(Request $request)
@@ -135,5 +140,15 @@ class FrontendController extends Controller
         } catch (\Exception $e) {
            return redirect()->back()->with('error', $e->getMessage());
         }
+    }
+
+    public function getRow()
+    {
+        return Specification::orderBy('id', 'ASC')->where('utility', 'row')->get();
+    }
+
+    public function getColumn()
+    {
+        return Specification::orderBy('id', 'ASC')->where('utility', 'column')->get();
     }
 }
