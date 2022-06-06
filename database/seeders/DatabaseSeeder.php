@@ -17,6 +17,7 @@ class DatabaseSeeder extends Seeder
             //UserTableSeeder::class,
             //MapTableSeeder::class,
             SpecificationTableSeeder::class
+            //PriceSeeder::class
         ]);
     }
 }

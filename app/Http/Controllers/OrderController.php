@@ -52,7 +52,12 @@ class OrderController extends Controller
         if(Auth::user()->can('Manage Order'))
         {
             $data['maps'] = HoldOrder::where('order_id', $order->id)->get();
-            return view('order.show', compact('data', 'order'));
+            if(!empty($data['maps']))
+            {
+                return view('order.show', compact('data', 'order'));
+            }else{
+                abort(404);
+            }
         }else{
             return redirect()->back()->with('error', __('Permesso negato.'));
         }

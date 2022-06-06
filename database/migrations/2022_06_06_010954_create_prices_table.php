@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateColumnsTable extends Migration
+class CreatePricesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,12 +13,12 @@ class CreateColumnsTable extends Migration
      */
     public function up()
     {
-        Schema::create('columns', function (Blueprint $table) {
+        Schema::create('prices', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->string('utility', 100)->nullable()->default('lettino');
-            $table->bigInteger('rows_id')->nullable();
-            $table->bigInteger('spec_id')->nullable();
-            $table->string('type', 100)->nullable()->default('-');
+            $table->float('fullday_amount')->nullable()->default(0.00);
+            $table->float('morning_amount')->nullable()->default(0.00);
+            $table->float('afternoon_amount')->nullable()->default(0.00);
+            $table->string('type', 100)->nullable();
             $table->timestamps();
         });
     }
@@ -30,6 +30,6 @@ class CreateColumnsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('columns');
+        Schema::dropIfExists('prices');
     }
 }

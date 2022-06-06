@@ -77,118 +77,25 @@
                     ?>
 
                     <tr>
-                        @if(isset($_GET['price_type']) && $_GET['price_type'] == 1)
-                            <td colspan=3 style="{{ $weekend == true ? 'padding:10px;background:orange;color:white;' : 'padding:10px;background:grey;color:white;' }}">Venerd&igrave; {{ $date->format('d.m.Y') }} <font><br><i>&#187; Giornata intera 9:00-18:00</i></font>
-                                @foreach (json_decode($data['map']) as $key => $item)
+                        <td colspan=3 style="{{ $weekend == true ? 'padding:10px;background:orange;color:white;' : 'padding:10px;background:grey;color:white;' }}">{!! \App\Models\Specification::getDay($date->format('d.m.Y'), $_GET['price_type'], $ConverDate) !!}</font>
+                            @foreach ($data['map'] as $key => $item)
                                 @php
                                     $accessory = \App\Models\Accesory::find($_GET['accesory_id'][$key]);
-                                    $priceType = $_GET['price_type'];
                                     if($accessory)
                                     {
                                         $accessoryAmount = $accessory->amount;
                                     }else{
                                         $accessoryAmount = 0;
                                     }
-                                    if($ConverDateTomatch == "saturday")
-                                    {
-                                        $price = $item->maps->saturday_price  + $accessoryAmount;
-                                    }elseif($ConverDateTomatch == "sunday"){
-                                        $price = $item->maps->sunday_price  + $accessoryAmount;
-                                    }else{
-                                        if($priceType == 1)
-                                        {
-                                            $price = $item->maps->full_day_price + $accessoryAmount;
-                                        }
-                                        else if($priceType == 2){
-                                            $price = $item->maps->morning_price + $accessoryAmount;
-                                        }
-                                        else if($priceType == 3){
-                                            $price = $item->maps->afternoon_price + $accessoryAmount;
-                                        }
-                                    }
-                                    $final_amount += $price;
+                                    $price = \App\Models\Specification::getPrice($item->type, $date->format('Y-m-d'), $_GET['price_type']);
+                                    $final_amount += $price + $accessoryAmount;
                                 @endphp
-                                    <tr>
-                                        <td style=padding:20px;><img src="{{ asset('images/ico-lettino.png') }}" style=width:30px; /> {{ $item->type }} {{ $item->lettini_number }} {{ !empty($accessory->name) ? 'Con '.$accessory->name  : '' }}</td>
-                                        <td style=padding:20px; >&euro; {{ $price }}</td>
-                                    </tr>
-                                @endforeach
-                            </td>
-                        @elseif(isset($_GET['price_type']) && $_GET['price_type'] == 2)
-                            <td colspan=3 style="{{ $weekend == true ? 'padding:10px;background:orange;color:white;' : 'padding:10px;background:grey;color:white;' }}">Venerd&igrave; {{ $date->format('d.m.Y') }} <font><br><i>&#187; MATTINA 9:00-13:00</i></font>
-                                @foreach (json_decode($data['map']) as $key => $item)
-                                @php
-                                    $accessory = \App\Models\Accesory::find($_GET['accesory_id'][$key]);
-                                    $priceType = $_GET['price_type'];
-                                    if($accessory)
-                                    {
-                                        $accessoryAmount = $accessory->amount;
-                                    }else{
-                                        $accessoryAmount = 0;
-                                    }
-                                    if($ConverDateTomatch == "saturday")
-                                    {
-                                        $price = $item->maps->saturday_price  + $accessoryAmount;
-                                    }elseif($ConverDateTomatch == "sunday"){
-                                        $price = $item->maps->sunday_price  + $accessoryAmount;
-                                    }else{
-                                        if($priceType == 1)
-                                        {
-                                            $price = $item->maps->full_day_price + $accessoryAmount;
-                                        }
-                                        else if($priceType == 2){
-                                            $price = $item->maps->morning_price + $accessoryAmount;
-                                        }
-                                        else if($priceType == 3){
-                                            $price = $item->maps->afternoon_price + $accessoryAmount;
-                                        }
-                                    }
-                                    $final_amount += $price;
-                                @endphp
-                                    <tr>
-                                        <td style=padding:20px;><img src="{{ asset('images/ico-lettino.png') }}" style=width:30px; /> {{ $item->type }} {{ $item->lettini_number }} {{ !empty($accessory->name) ? 'Con '.$accessory->name  : '' }}</td>
-                                        <td style=padding:20px; >&euro; {{ $price }}</td>
-                                    </tr>
-                                @endforeach
-                            </td>
-                        @elseif(isset($_GET['price_type']) && $_GET['price_type'] == 3)
-                            <td colspan=3 style="{{ $weekend == true ? 'padding:10px;background:orange;color:white;' : 'padding:10px;background:grey;color:white;' }}">Venerd&igrave; {{ $date->format('d.m.Y') }} <font><br><i>&#187; POMERIGGIO 13:30-18:00</i></font>
-                                @foreach (json_decode($data['map']) as $key => $item)
-                                @php
-                                    $accessory = \App\Models\Accesory::find($_GET['accesory_id'][$key]);
-                                    $priceType = $_GET['price_type'];
-                                    if($accessory)
-                                    {
-                                        $accessoryAmount = $accessory->amount;
-                                    }else{
-                                        $accessoryAmount = 0;
-                                    }
-                                    if($ConverDateTomatch == "saturday")
-                                    {
-                                        $price = $item->maps->saturday_price  + $accessoryAmount;
-                                    }elseif($ConverDateTomatch == "sunday"){
-                                        $price = $item->maps->sunday_price  + $accessoryAmount;
-                                    }else{
-                                        if($priceType == 1)
-                                        {
-                                            $price = $item->maps->full_day_price + $accessoryAmount;
-                                        }
-                                        else if($priceType == 2){
-                                            $price = $item->maps->morning_price + $accessoryAmount;
-                                        }
-                                        else if($priceType == 3){
-                                            $price = $item->maps->afternoon_price + $accessoryAmount;
-                                        }
-                                    }
-                                    $final_amount += $price;
-                                @endphp
-                                    <tr>
-                                        <td style=padding:20px;><img src="{{ asset('images/ico-lettino.png') }}" style=width:30px; /> {{ $item->type }} {{ $item->lettini_number }} {{ !empty($accessory->name) ? 'Con '.$accessory->name  : '' }}</td>
-                                        <td style=padding:20px; >&euro; {{ $price }}</td>
-                                    </tr>
-                                @endforeach
-                            </td>
-                        @endif
+                                <tr>
+                                    <td style=padding:20px;><img src="{{ asset('images/ico-lettino.png') }}" style=width:30px; /> {{ $item->type }} {{ $item->spec_id }} {{ !empty($accessory->name) ? 'Con '.$accessory->name  : '' }}</td>
+                                    <td style=padding:20px; >&euro; {{ $price + $accessoryAmount }}</td>
+                                </tr>
+                            @endforeach
+                        </td>
                     </tr>
                 @endforeach
                 <tr style=padding:20px; ><th style="padding:20px;"   ><b>Totale</b>
@@ -196,7 +103,9 @@
                 </tr>
             </table>
             <br>
-            <a class="btn btn-primary" href="{{ route('stripe.payment') }}?accesory_id={{ implode(",",$_GET['accesory_id']) }}&numerodipersone={{ $_GET['numerodipersone'] }}&price_type={{ $_GET['price_type'] }}&map_id={{ json_encode($_GET['map_id']) }}&from={{ $_GET['from'] }}&to={{ $_GET['to'] }}&final_amount={{ $final_amount }}">Pay With Stripe</a>
+            @if($final_amount > 0.0)
+                <a class="btn btn-primary" href="{{ route('stripe.payment') }}?accesory_id={{ implode(",",$_GET['accesory_id']) }}&numerodipersone={{ $_GET['numerodipersone'] }}&price_type={{ $_GET['price_type'] }}&map_id={{ json_encode($_GET['map_id']) }}&from={{ $_GET['from'] }}&to={{ $_GET['to'] }}&final_amount={{ $final_amount }}">Pay With Stripe</a>
+            @endif
         </fieldset>
 </body>
 </html>

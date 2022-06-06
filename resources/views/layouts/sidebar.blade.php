@@ -87,6 +87,20 @@
                         <span class="ms-2">{{ __('Configura Mao') }}</span>
                     </a>
                 </li>
+
+                <li>
+                    <a class="m-link {{ Request::segment(1) == "price" ? 'active' : '' }}" href="{{ url('/price') }}">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="18" fill="currentColor" viewBox="0 0 16 16">
+                            <path d="M0 3H16V4H0V3Z" />
+                            <path d="M9 1H14V6H9V1Z" />
+                            <path d="M0 13H16V14H0V13Z" />
+                            <path d="M9 11H14V16H9V11Z" />
+                            <path class="fill-secondary" d="M0 8H16V9H0V8Z" />
+                            <path class="fill-secondary" d="M2 6H7V11H2V6Z" />
+                        </svg>
+                        <span class="ms-2">{{ __('Price Setting') }}</span>
+                    </a>
+                </li>
                @endcan
              <!-- End Manage Map -->
 

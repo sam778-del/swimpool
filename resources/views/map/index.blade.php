@@ -28,32 +28,28 @@
             <div class="col ml-n2">
             </div>
             {{-- End of other widget --}}
-            @can('Create Branch')
-                <div class="col-auto d-none d-md-inline-block">
-                    <a href="{{ route("operator.create") }}" class="btn btn-primary">
-                        <i class="bi bi-plus-lg"></i>
-                        {{ __('Crea operatore') }}
-                    </a>
-                </div>
-            @endcan
         </div>
     </div>
     <div class="card" style="background-color: #FFCC33; opacity: 0.8">
         <div class="card-body">
             <table id="table_list" style="width: 50%" class="table align-middle mb-0 card-table" cellspacing="0">
                 <thead>
+                    @php
+                        $counter = 0;   
+                    @endphp
                     @foreach($data['column'] as $key => $column)
                         <tr>
                             @foreach($data['row'] as $key => $row)
                                 @php
-                                    $columnId = \App\Models\Specification::findorfail($column->id);
+                                    $counter++;   
+                                    $sp = \App\Models\Specification::getSpec($counter);     
                                 @endphp
-                                @if($row->type == 'lettino' && $columnId->type == 'lettino')
+                                
+                                @if($sp->type == 'lettino')
                                     <td style="background:blue;">
-                                        {!! Form::open(["route" => ["table-map.update", $row->id], "method" => "PATCH"]) !!}
-                                            <input  type=text style="background:blue;" name="nome" value="{{ $row->spec_id }}" size=1 />
-                                            <input type="hidden" name="item_id" value="{{ $row->id }}"/>
-                                            <input type="hidden" name="column_id" value="{{ $columnId->id }}"/>
+                                        {!! Form::open(["route" => ["table-map.update", $sp->id], "method" => "PATCH"]) !!}
+                                            <input  type=text style="background:blue;" name="nome" value="{{ $sp->spec_id }}" size=1 />
+                                            <input type="hidden" name="item_id" value="{{ $sp->id }}"/>
                                             <select name="type"  type=text style="background:blue;" >
                                                 <option value=lettino >L</option>
                                                 <option value=ombrellone >O</option>
@@ -64,28 +60,26 @@
                                             <input type=image src="{{ asset('images/ok.png') }}" />
                                         {!! Form::close() !!}
                                     </td>
-                                @elseif ($row->type == 'ombrellone' && $columnId->type == 'ombrellone')
+                                @elseif($sp->type == 'ombrellone')
                                     <td style="background:#009966;">
-                                        {!! Form::open(["route" => ["table-map.update", $row->id], "method" => "PATCH"]) !!}
-                                            <input  type=text style="background:#009966;" name="nome" value="{{ $row->spec_id }}" size=1 />
-                                            <input type="hidden" name="item_id" value="{{ $row->id }}"/>
-                                            <input type="hidden" name="column_id" value="{{ $columnId->id }}"/>
+                                        {!! Form::open(["route" => ["table-map.update", $sp->id], "method" => "PATCH"]) !!}
+                                            <input  type=text style="background:#009966;" name="nome" value="{{ $sp->spec_id }}" size=1 />
+                                            <input type="hidden" name="item_id" value="{{ $sp->id }}"/>
                                             <select name="type"  type=text style="background:#009966;" >
                                                 <option value=lettino >L</option>
                                                 <option value=ombrellone >O</option>
                                                 <option value=-1 >-</option>
                                                 <option value=gazebo >G</option>
-                                                <option value=passerella >{{ $row->type }}</option>
+                                                <option value=passerella >P</option>
                                             </select>
                                             <input type=image src="{{ asset('images/ok.png') }}" />
                                         {!! Form::close() !!}
                                     </td>
-                                @elseif ($row->type == '-1' || $row->type == '-' && $columnId->type == '-1' || $columnId->type == '-')
-                                    <td style="background:#FFCC33; opacity:0.5">
-                                        {!! Form::open(["route" => ["table-map.update", $row->id], "method" => "PATCH"]) !!}
-                                            <input  type=text style="background:#FFCC33;" name="nome" value="{{ $row->spec_id }}" size=1 />
-                                            <input type="hidden" name="item_id" value="{{ $row->id }}"/>
-                                            <input type="hidden" name="column_id" value="{{ $columnId->id }}"/>
+                                @elseif($sp->type == '-1' || $sp->type == '-')
+                                    <td style="background:#FFCC33;opacity:0.5">
+                                        {!! Form::open(["route" => ["table-map.update", $sp->id], "method" => "PATCH"]) !!}
+                                            <input  type=text style="background:#FFCC33;" name="nome" value="{{ $sp->spec_id }}" size=1 />
+                                            <input type="hidden" name="item_id" value="{{ $sp->id }}"/>
                                             <select name="type"  type=text style="background:#FFCC33;" >
                                                 <option value=lettino >L</option>
                                                 <option value=ombrellone >O</option>
@@ -96,12 +90,11 @@
                                             <input type=image src="{{ asset('images/ok.png') }}" />
                                         {!! Form::close() !!}
                                     </td>
-                                @elseif ($row->type == 'gazebo' && $columnId->type == 'gazebo')
+                                @elseif($sp->type == 'gazebo')
                                     <td style="background:gray;">
-                                        {!! Form::open(["route" => ["table-map.update", $row->id], "method" => "PATCH"]) !!}
-                                            <input  type=text style="background:gray;" name="nome" value="{{ $row->spec_id }}" size=1 />
-                                            <input type="hidden" name="item_id" value="{{ $row->id }}"/>
-                                            <input type="hidden" name="column_id" value="{{ $columnId->id }}"/>
+                                        {!! Form::open(["route" => ["table-map.update", $sp->id], "method" => "PATCH"]) !!}
+                                            <input  type=text style="background:gray;" name="nome" value="{{ $sp->spec_id }}" size=1 />
+                                            <input type="hidden" name="item_id" value="{{ $sp->id }}"/>
                                             <select name="type"  type=text style="background:gray;" >
                                                 <option value=lettino >L</option>
                                                 <option value=ombrellone >O</option>
@@ -112,38 +105,21 @@
                                             <input type=image src="{{ asset('images/ok.png') }}" />
                                         {!! Form::close() !!}
                                     </td>
-                                @elseif($row->type == 'passerella' && $columnId->type == 'passerella')
+                                @else
                                     <td style="background:brown;">
-                                        {!! Form::open(["route" => ["table-map.update", $row->id], "method" => "PATCH"]) !!}
-                                            <input  type=text style="background:brown;" name="nome" value="{{ $row->spec_id }}" size=1 />
-                                            <input type="hidden" name="item_id" value="{{ $row->id }}"/>
-                                            <input type="hidden" name="column_id" value="{{ $columnId->id }}"/>
+                                        {!! Form::open(["route" => ["table-map.update", $sp->id], "method" => "PATCH"]) !!}
+                                            <input  type=text style="background:brown;" name="nome" value="{{ $sp->spec_id }}" size=1 />
+                                            <input type="hidden" name="item_id" value="{{ $sp->id }}"/>
                                             <select name="type"  type=text style="background:brown;" >
                                                 <option value=lettino >L</option>
                                                 <option value=ombrellone >O</option>
-                                                <option value="-1" >-</option>
-                                                <option value="gazebo" >G</option>
-                                                <option value="passerella" >P</option>
+                                                <option value=-1 >-</option>
+                                                <option value=gazebo >G</option>
+                                                <option value=passerella >P</option>
                                             </select>
                                             <input type=image src="{{ asset('images/ok.png') }}" />
                                         {!! Form::close() !!}
                                     </td>
-                                @else
-                                <td style="background:#FFCC33; opacity:0.5">
-                                    {!! Form::open(["route" => ["table-map.update", $row->id], "method" => "PATCH"]) !!}
-                                        <input  type=text style="background:#FFCC33;" name="nome" value="{{ $row->spec_id }}" size=1 />
-                                        <input type="hidden" name="item_id" value="{{ $row->id }}"/>
-                                        <input type="hidden" name="column_id" value="{{ $columnId->id }}"/>
-                                        <select name="type"  type=text style="background:#FFCC33;" >
-                                            <option value=lettino >L</option>
-                                            <option value=ombrellone >O</option>
-                                            <option value=-1 >-</option>
-                                            <option value=gazebo >G</option>
-                                            <option value=passerella >P</option>
-                                        </select>
-                                        <input type=image src="{{ asset('images/ok.png') }}" />
-                                    {!! Form::close() !!}
-                                </td>
                                 @endif
                             @endforeach
                         </tr>

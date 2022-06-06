@@ -9,6 +9,7 @@ use App\Http\Controllers\{
     ManualOrderController,
     MapController,
     ClientController,
+    PriceController,
     AccesoryController,
     Auth\LoginController
 };
@@ -62,3 +63,4 @@ Route::post('make-payment', [FrontendController::class, 'makePayment'])->name('m
 Route::resource('order', OrderController::class)->middleware(['auth']);
 Route::get('get-order', [OrderController::class, 'datatables'])->name('order.datatables');
 
+Route::resource('price', PriceController::class)->middleware(['auth']);

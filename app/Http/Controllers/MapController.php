@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Map;
 use App\Models\Specification;
+use App\Models\Row;
+use App\Models\Column;
 use Validator;
 
 class MapController extends Controller
@@ -17,10 +19,11 @@ class MapController extends Controller
     public function index()
     {
         $data = [
-            'row' => $this->getRow(),
-            'column' => $this->getColumn()
+            'column' => $this->getColumn(),
+            'row'    => $this->getRow()
         ];
         return view('map.index', compact('data'));
+        //return array_chunk($this->getRow(), count($this->getColumn()));
     }
 
     public function show(Request $request)
@@ -30,12 +33,14 @@ class MapController extends Controller
 
     public function getRow()
     {
-        return Specification::orderBy('id', 'ASC')->where('utility', 'row')->limit(19)->get();
+        $rowArray = range(1, env('row'));
+        return $rowArray;
     }
 
     public function getColumn()
     {
-        return Specification::orderBy('id', 'ASC')->where('utility', 'column')->limit(10)->get();
+        $rowArray = range(1, env('column'));
+        return $rowArray;
     }
 
     public function update(Request $request)
@@ -44,11 +49,6 @@ class MapController extends Controller
         $specification->spec_id = $request->nome;
         $specification->type    = $request->type;
         $specification->save();
-
-        $column = Specification::findorfail($request->column_id);
-        $column->spec_id = $request->nome;
-        $column->type = $request->type;
-        $column->save();
         return redirect()->back();
     }
 }

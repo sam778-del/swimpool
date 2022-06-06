@@ -2,10 +2,17 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class Column extends Model
 {
-    use HasFactory;
+    /**
+     * Get all of the comments for the Column
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function rows()
+    {
+        return $this->hasMany(Row::class, 'column_id', 'id');
+    }
 }

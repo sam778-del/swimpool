@@ -21,20 +21,63 @@ class FrontendController extends Controller
         return view('front.book');
     }
 
-    public function showMap()
+    public function showMap(Request $request)
     {
         $data = [
             'row' => $this->getRow(),
-            'column' => $this->getColumn()
+            'column' => $this->getColumn(),
+            'mattina' => $this->getFreeBed($request->arrivo, $request->partenza, 2),
+            'pomeriggio' => $this->getFreeBed($request->arrivo, $request->partenza, 3),
+            'giornata' => $this->getFreeBed($request->arrivo, $request->partenza, 1),
+            'data' => $this->getIds($request->arrivo, $request->partenza, $request->giornata)
         ];
         return view('front.map', compact('data'));
+        //return $data['data'];
+    }
+
+    public function getFreeBed($from, $to, int $id)
+    {
+        $map_id = [];
+        $hold_order = HoldOrder::where(function($query) use ($from, $to, $id){
+            $query->whereBetween('booked_date', [$from, $to]);
+        })
+        ->where('day', '=', $id)
+        ->get();
+        foreach($hold_order as $k => $s)
+        {
+            $map_id[$k] = $s->map_id;
+        }
+        return Specification::whereNotIn('id', $map_id)->where(function($query) {
+            $query->where('type', 'lettino')
+            ->orWhere('type', 'gazebo');
+        })->get();
+    }
+
+    public function getIds($from, $to, int $id)
+    {
+        $map_id = [];
+        $hold_order = HoldOrder::where(function($query) use ($from, $to, $id){
+            $query->whereBetween('booked_date', [$from, $to]);
+        })
+        ->where('day', '=', $id)
+        ->get();
+        foreach($hold_order as $k => $s)
+        {
+            $map_id[$k] = $s->map_id;
+        }
+        return $map_id;
+    }
+
+    public function removeSpec(array $map_id)
+    {
+        return Specification::whereIn('id', '!=', $map_id)->get();
     }
 
     public function insertMap(Request $request)
     {
         if(isset($request->map_id) && $request->map_id)
         {
-            $maps = Map::whereIn('id', $request->map_id)->with('maps')->get();
+            $maps = Specification::whereIn('id', $request->map_id)->get();
             $map_id = json_encode($request->map_id);
             return view('front.index', compact('maps', 'map_id'));
         }else{
@@ -45,9 +88,10 @@ class FrontendController extends Controller
     public function calculationMap(Request $request)
     {
         $data = [];
-        $data['start_date'] = date('d/m/Y', strtotime($request->from));
-        $data['end_date']   = date('d/m/Y', strtotime($request->to));
-        $data['map'] = Map::whereIn('id', json_decode($request->map_id))->with('maps')->get();
+        $data['start_date'] = $request->from;
+        $data['end_date']   = $request->to;
+        $data['map'] = Specification::whereIn('id', json_decode($request->map_id))->get();
+        //return $data['map'];
         return view('front.calculation', compact('data'));
         //return $data['map'][0]['maps']->morning_price;
     }
@@ -98,9 +142,9 @@ class FrontendController extends Controller
                 $order->card_exp_year   =   isset($data['payment_method_details']['card']['exp_year']) ? $data['payment_method_details']['card']['exp_year'] : '';
                 $order->save();
 
-                $maps = Map::whereIn('id', json_decode($data["metadata"]["maps"]))->with('maps')->get();
-                $begin = new \DateTime( date('m-d-Y', strtotime($data["metadata"]["from"])) );
-                $end = new \DateTime( date('m-d-Y', strtotime($data["metadata"]["to"])) );
+                $maps = Specification::whereIn('id', json_decode($data["metadata"]["maps"]))->get();
+                $begin = new \DateTime( $data["metadata"]["from"] );
+                $end = new \DateTime( $data["metadata"]["to"] );
                 $end = $end->modify( '+1 day' );
                 $interval = new \DateInterval('P1D');
                 $daterange = new \DatePeriod($begin, $interval ,$end);
@@ -110,8 +154,18 @@ class FrontendController extends Controller
                         $accessoryData = explode(",", $data["metadata"]["accessory"]);
                         $accessory = \App\Models\Accesory::find($accessoryData[$key]);
 
+                        if($accessory)
+                        {
+                            $accessoryAmount = $accessory->amount;
+                        }else{
+                            $accessoryAmount = 0;
+                        }
+                        $price = \App\Models\Specification::getPrice($item->type, $dat->format('Y-m-d'), $data["metadata"]["price_type"]);
+
                         $hold_order  = new HoldOrder();
                         $hold_order->map_id = $item->id;
+                        $hold_order->amount = $price + $accessoryAmount;
+                        $hold_order->name = $item->type.' '.$item->spec_id;
                         $hold_order->order_id = $order->id;
                         $hold_order->booked_date = Carbon::parse($dat->format('Y-m-d'));
                         $hold_order->accessory_id = !empty($accessory->id) ? $accessory->id : 0;
@@ -129,11 +183,11 @@ class FrontendController extends Controller
                 if(!empty($user))
                 {
                     foreach ($user as $key => $us) {
-                        Mail::to($us->email)->send(new OrderReceiveMail($orderID, $order->amount ));
+                        //Mail::to($us->email)->send(new OrderReceiveMail($orderID, $order->amount ));
                     }
                 }
-                Mail::to($data["metadata"]["email"])->send(new OrderReceiveMail($orderID, $amount));
-                return redirect()->back()->with('success', __('Order Places Succesfully!'));
+                //Mail::to($data["metadata"]["email"])->send(new OrderReceiveMail($orderID, $amount));
+                return redirect()->intended('/')->with('success', __('Order Placed Succesfully!'));
             }else{
                 return redirect()->back()->with('error', __('Payment cannot be processed'));
             }
@@ -144,11 +198,13 @@ class FrontendController extends Controller
 
     public function getRow()
     {
-        return Specification::orderBy('id', 'ASC')->where('utility', 'row')->get();
+        $rowArray = range(1, env('row'));
+        return $rowArray;
     }
 
     public function getColumn()
     {
-        return Specification::orderBy('id', 'ASC')->where('utility', 'column')->get();
+        $rowArray = range(1, env('column'));
+        return $rowArray;
     }
 }

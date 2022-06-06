@@ -37,7 +37,7 @@
                             <?php $total_price = 0 ?>
                             @foreach ($data['maps'] as $item)
                                 @php
-                                    $map = \App\Models\Map::findorfail($item->map_id);   
+                                    $map = \App\Models\Specification::findorfail($item->map_id);   
                                     $accessory = \App\Models\Accesory::find($item->accessory_id);
                                     $ConverDate = date("l", strtotime($item->booked_date));
                                     $ConverDateTomatch = strtolower($ConverDate);
@@ -48,23 +48,7 @@
                                     }else{
                                         $accessoryAmount = 0;
                                     }
-                                    if($ConverDateTomatch == "saturday")
-                                    {
-                                        $price = $map->maps->saturday_price  + $accessoryAmount;
-                                    }elseif($ConverDateTomatch == "sunday"){
-                                        $price = $map->maps->sunday_price  + $accessoryAmount;
-                                    }else{
-                                        if($priceType == 1)
-                                        {
-                                            $price = $map->maps->full_day_price + $accessoryAmount;
-                                        }
-                                        else if($priceType == 2){
-                                            $price = $map->maps->morning_price + $accessoryAmount;
-                                        }
-                                        else if($priceType == 3){
-                                            $price = $map->maps->afternoon_price + $accessoryAmount;
-                                        }
-                                    } 
+                                    $price = $item->amount;
                                     $total_price += $price;
                                 @endphp
                                 
@@ -73,7 +57,7 @@
                                     <td>
                                         <div class="d-flex align-items-center"> <img src="{{ asset('images/ico-lettino.png') }}" class="rounded-circle avatar" alt="">
                                             <div class="ms-2">
-                                                <div class="mb-0">{{ $map->type.' '.$map->lettini_number }}</div> 
+                                                <div class="mb-0">{{ $map->type.' '.$map->spec_id }}</div> 
                                             </div>
                                         </div>
                                     </td>

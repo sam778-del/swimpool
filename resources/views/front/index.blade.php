@@ -39,7 +39,7 @@
 				<legend>
 					<h2>Scelta di eventuali accessori</h2></legend>
 					@foreach ($maps as $item)
-						<br>Scegli accessori per {{ $item->type }} {{ $item->id }}:
+						<br>Scegli accessori per {{ $item->type }} {{ $item->spec_id }}:
 							<select class="mac" name="accesory_id[]">
 								<option value="">Nessun accessorio</option>
 								@foreach (\DB::table('accesories')->get(); as $item)

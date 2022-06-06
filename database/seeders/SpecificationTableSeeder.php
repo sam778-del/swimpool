@@ -4,8 +4,6 @@ namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
 use App\Models\Specification;
-use App\Models\Column;
-use App\Models\Row;
 
 class SpecificationTableSeeder extends Seeder
 {
@@ -16,18 +14,12 @@ class SpecificationTableSeeder extends Seeder
      */
     public function run()
     {
-        foreach(range(0, 37) as $item)
+        foreach(range(1, 780) as $item)
         {
-            Column::create([
-                'utility' => 'row',
-            ]);
-        }
-
-        $row   =   Column::get();
-        foreach(range(0, 18) as $item)
-        {
-            Row::create([
-                'utility' => $row[$key]->id
+            Specification::create([
+                'utility' => 'lettino',
+                'spec_id' => $item,
+                'type' => '-'
             ]);
         }
     }
