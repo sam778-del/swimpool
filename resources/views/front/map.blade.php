@@ -98,11 +98,12 @@
                         @if(!empty($sp))
                             @if($sp->type == 'lettino')
                                 <td align="CENTER" style=" background:#FFFF99;border-radius:0px 80px 0px 0px;color:blue; padding-left:0px; border:0px;   margin:0px; border-width:0; padding:2px;">
-                                    <center><font style="font-size:10px;float:left;"> <span style="background:transparent;">
-                                    <img style="background:transparent;" src="images/ico-lettino.png" width="30px" height="30px" title="{{ $sp->spec_id }}" onclick="document.getElementById('{{ $sp->spec_id}}').click(); ">
-                                    <br>{{ $sp->spec_id }}<br><input type="checkbox" style="width:20px;height:20px;" value="{{ $sp->id }}" name="map_id[]" id="{{ $sp->id }}">
-                                    <label for="{{ $sp->id }}"></label></span>
-                                    </font>
+                                    <center>
+                                        <font style="font-size:10px;float:left;"> <span style="background:transparent;">
+                                        <img style="background:transparent;" src="images/ico-lettino.png" width="20px" height="20px" title="{{ $sp->spec_id }}" onclick="document.getElementById('{{ $sp->spec_id}}').click(); ">
+                                        <br>{{ $sp->spec_id }}<br><input type="checkbox" style="width:20px;height:20px;" value="{{ $sp->id }}" name="map_id[]" id="{{ $sp->id }}">
+                                        <label for="{{ $sp->id }}"></label></span>
+                                        </font>
                                     </center>
                                 </td>
                             @elseif($sp->type == 'ombrellone')
