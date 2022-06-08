@@ -1,111 +1,105 @@
-<html>
+@extends('layouts.layout')
 
-<head>
-	<title> :: AGGIUNGI NUOVA PRENOTAZIONE :: </title>
-	<link href="https://fonts.googleapis.com/css?family=Raleway" type="text/css" rel="stylesheet">
-	<meta name="web_author" content="Falcione Gianluca">
-	<link rel="shortcut icon" type="image/png" href="https://www.preventivoistantaneo.it/booking-engine/demo/images/favicon.png" />
-	<link href="https://www.gorizianuoto.cloud/style.css" rel="stylesheet" type="text/css">
-	<script type="text/javascript" src="https://www.gorizianuoto.cloud/javascript.js"></script>
-	<META HTTP-EQUIV="Expires" CONTENT="0">
-	<META HTTP-EQUIV="Pragma" CONTENT="no-cache">
-	<META HTTP-EQUIV="Cache-Control" CONTENT="no-cache">
-	<title>:: Gorizia Nuoto ::</title>
-	<style type="text/css">
-	@media print {
-		/*Regola dedicata alla visualizzazione su carta*/
-		.nascondistampa {
-			display: none;
-		}
-		body {
-			background: white;
-		}
-		table th {
-			background: white;
-			color: black;
-		}
-		table tr,
-		td {
-			background: white !important;
-			color: black !important;
-		}
-	}
+<?php $final_amount = 0 ?>
 
-    .btn {
-        background-color: #4CAF50; /* Green */
-        border: none;
-        color: white;
-        padding: 15px 32px;
-        text-align: center;
-        text-decoration: none;
-        display: inline-block;
-        font-size: 16px;
-    }
-
-    .btn-primary {
-        border-radius: 16px
-    }
-	</style>
-  <center>
-    <img src=https://www.gorizianuoto.cloud/images/logo.png  /><center>
-        <fieldset style="width:90%;border-radius:20px;">
-            <legend><h3>{{ date('d/m/Y', strtotime($data['start_date'])) }} - {{ date('d/m/Y', strtotime($data['end_date'])) }}</h3> </legend>
-            <table style=width:90%;>
-                @php
-                    $total_price = 0;
-                    $begin = new \DateTime( date('Y-m-d', strtotime($data['start_date']) ));
-                    $end = new DateTime( date('Y-m-d', strtotime($data['end_date'])) );
-                    $end = $end->modify( '+1 day' );
-                    $interval = new \DateInterval('P1D');
-                    $daterange = new \DatePeriod($begin, $interval ,$end);
-                @endphp
-
-
-                <?php $final_amount = 0 ?>
-                @foreach($daterange as $date)
-                    @php
-                        $ConverDate = date("l", strtotime($date->format('Y-m-d')));
-                        $ConverDateTomatch = strtolower($ConverDate);
-                        if(($ConverDateTomatch == "saturday" )|| ($ConverDateTomatch == "sunday")){
-                            $weekend = true;
-                        } else {
-                            $weekend = false;
+@section('content')
+<section class="page-header page-header-text-light bg-secondary">
+   <div class="container">
+      <div class="row align-items-center">
+         <div class="col-md-8">
+            <h1>Conferma i dettagli di pagamento</h1>
+         </div>
+      </div>
+   </div>
+</section>
+<!-- Page Header end -->
+<div id="content">
+    <form action="{{ route('stripe.payment') }}" method="POST">
+        @csrf
+        <input type="hidden" name="accesory_id" value="{{ implode(",",$data['accesory_id']) }}">
+        <input type="hidden" name="numerodipersone" value="{{ $data['numerodipersone'] }}">
+        <input type="hidden" name="price_type" value="{{ $data['price_type'] }}">
+        <input type="hidden" name="map_id" value="{{ json_encode($data['map_id']) }}">
+        <input type="hidden" name="from" value="{{ $data['start_date'] }}">
+        <input type="hidden" name="to" value="{{ $data['end_date'] }}">
+        <section class="container">
+            @php
+            $total_price = 0;
+            $begin = new \DateTime( date('Y-m-d', strtotime($data['start_date']) ));
+            $end = new DateTime( date('Y-m-d', strtotime($data['end_date'])) );
+            $end = $end->modify( '+1 day' );
+            $interval = new \DateInterval('P1D');
+            $daterange = new \DatePeriod($begin, $interval ,$end);
+            @endphp
+            @foreach($daterange as $date)
+            @php
+                $ConverDate = date("l", strtotime($date->format('Y-m-d')));
+                $ConverDateTomatch = strtolower($ConverDate);
+                if(($ConverDateTomatch == "saturday" )|| ($ConverDateTomatch == "sunday")){
+                $weekend = true;
+                } else {
+                $weekend = false;
+                }
+            @endphp
+            <?php
+                $total_amount = 0;
+                ?>
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="bg-white shadow-md rounded p-3 p-sm-4 confirm-details">
+                    <div class="card">
+                        <div class="card-header">
+                            <div class="row align-items-center trip-title">
+                                <div class="col-6 col-sm col-md-auto text-3 date">{!! \App\Models\Specification::getDay($date->format('d.m.Y'), $data['price_type'], $ConverDate) !!}</div>
+                            </div>
+                        </div>
+                        @foreach ($data['map'] as $key => $item)
+                        @php
+                        $accessory = \App\Models\Accesory::find($data['accesory_id'][$key]);
+                        if($accessory)
+                        {
+                        $accessoryAmount = $accessory->amount;
+                        }else{
+                        $accessoryAmount = 0;
                         }
-                    @endphp
-                    <?php
-                        $total_amount = 0;
-                    ?>
-
-                    <tr>
-                        <td colspan=3 style="{{ $weekend == true ? 'padding:10px;background:orange;color:white;' : 'padding:10px;background:grey;color:white;' }}">{!! \App\Models\Specification::getDay($date->format('d.m.Y'), $_GET['price_type'], $ConverDate) !!}</font>
-                            @foreach ($data['map'] as $key => $item)
-                                @php
-                                    $accessory = \App\Models\Accesory::find($_GET['accesory_id'][$key]);
-                                    if($accessory)
-                                    {
-                                        $accessoryAmount = $accessory->amount;
-                                    }else{
-                                        $accessoryAmount = 0;
-                                    }
-                                    $price = \App\Models\Specification::getPrice($item->type, $date->format('Y-m-d'), $_GET['price_type']);
-                                    $final_amount += $price + $accessoryAmount;
-                                @endphp
-                                <tr>
-                                    <td style=padding:20px;><img src="{{ asset('images/ico-lettino.png') }}" style=width:30px; /> {{ $item->type }} {{ $item->spec_id }} {{ !empty($accessory->name) ? 'Con '.$accessory->name  : '' }}</td>
-                                    <td style=padding:20px; >&euro; {{ $price + $accessoryAmount }}</td>
-                                </tr>
-                            @endforeach
-                        </td>
-                    </tr>
-                @endforeach
-                <tr style=padding:20px; ><th style="padding:20px;"   ><b>Totale</b>
-                    <td style="padding:20px;background:green;color:white;" colspan=100% ><b>&euro; {{ $final_amount }}</b></table>     <br><br>
-                </tr>
-            </table>
-            <br>
-            @if($final_amount > 0.0)
-                <a class="btn btn-primary" href="{{ route('stripe.payment') }}?accesory_id={{ implode(",",$_GET['accesory_id']) }}&numerodipersone={{ $_GET['numerodipersone'] }}&price_type={{ $_GET['price_type'] }}&map_id={{ json_encode($_GET['map_id']) }}&from={{ $_GET['from'] }}&to={{ $_GET['to'] }}&final_amount={{ $final_amount }}">Pay With Stripe</a>
-            @endif
-        </fieldset>
-</body>
-</html>
+                        $price = \App\Models\Specification::getPrice($item->type, $date->format('Y-m-d'), $data['price_type']);
+                        $final_amount += $price + $accessoryAmount;
+                        @endphp
+                        <div class="card">
+                            <div class="card-body">
+                                <div class="row align-items-sm-center flex-row">
+                                <div class="col-12 col-sm-3 mb-3 mb-sm-0"> 
+                                    <span class="text-3 text-dark operator-name"><img src="{{ asset('images/ico-lettino.png') }}" style=width:30px; /> {{ $item->type }} {{ $item->spec_id }} {{ !empty($accessory->name) ? 'Con '.$accessory->name  : '' }}</span> 
+                                    <span class="text-muted d-block">&euro; {{ $price + $accessoryAmount }}</span> 
+                                </div>
+                                </div>
+                            </div>
+                        </div>
+                        @endforeach
+                    </div>
+                    </div>
+                </div>
+            </div>
+            @endforeach
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="bg-white shadow-md rounded p-3 p-sm-4 confirm-details">
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="text-dark bg-light-4 text-4 font-weight-600 p-3"> Total Amount <span class="float-right text-6">&euro;{{ $final_amount }}</span> </div>
+                        </div>
+                        <input type="hidden" name="final_amount" value="{{ $final_amount }}">
+                        <div class="card-footer">
+                            @if($final_amount > 0.0)
+                                <button class="btn btn-primary btn-block"  type="submit">Procedere al pagamento</button>
+                            @endif
+                        </div>
+                    </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </form>
+</div>
+<!-- Content end -->
+@endsection

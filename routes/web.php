@@ -54,13 +54,15 @@ Route::get('get-accessory', [AccesoryController::class, 'datatables'])->name('ac
 
 
 Route::get('vistagiornoricercacliente', [FrontendController::class, 'showMap']);
-Route::get('aggiungiprenotazione1bisdaombrellonecliente', [FrontendController::class, 'insertMap']);
-Route::get('calcolaprezzocliente', [FrontendController::class, 'calculationMap']);
+Route::post('calcolaprezzocliente', [FrontendController::class, 'calculationMap']);
 
-Route::get('stripe-payment', [FrontendController::class, 'stripePayment'])->name('stripe.payment');
-Route::post('make-payment', [FrontendController::class, 'makePayment'])->name('make.payment');
+Route::post('stripe-payment', [FrontendController::class, 'stripePayment'])->name('stripe.payment');
+Route::post('make-payment/new', [FrontendController::class, 'makePayment'])->name('make.payment');
 
 Route::resource('order', OrderController::class)->middleware(['auth']);
 Route::get('get-order', [OrderController::class, 'datatables'])->name('order.datatables');
 
 Route::resource('price', PriceController::class)->middleware(['auth']);
+
+Route::post('check-valid', [FrontendController::class, 'checkValid']);
+Route::post('aggiungiprenotazione1bisdaombrellonecliente', [FrontendController::class, 'insertMap']);

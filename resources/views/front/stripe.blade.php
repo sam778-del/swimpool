@@ -38,8 +38,8 @@
                     <div class="panel-body">
                         <form
                             role="form"
-                            action="{{ route('make.payment') }}"
-                            method="post"
+                            action="{{ url('make-payment/new') }}"
+                            method="POST"
                             class="require-validation"
                             data-cc-on-file="false"
                             data-stripe-publishable-key="{{ env('STRIPE_KEY') }}"
@@ -70,17 +70,17 @@
                                 </div>
                                 <div id="card-errors" role="alert"></div>
                             </div>
-                            <input type="hidden" name="accessory_id" value="{{ $_GET['accesory_id'] }}" />
-                            <input type="hidden" name="numerodipersone" value="{{ $_GET['numerodipersone'] }}" />
-                            <input type="hidden" name="price_type" value="{{ $_GET['price_type'] }}" />
-                            <input type="hidden" name="final_amount" value="{{ $_GET['final_amount'] }}" />
-                            <input type="hidden" name="map_id" value="{{ $_GET['map_id'] }}" />
-                            <input type="hidden" name="from" value="{{ $_GET['from'] }}" />
-                            <input type="hidden" name="to" value="{{ $_GET['to'] }}" />
-                            <input type="hidden" name="final_amount" value="{{ $_GET['final_amount'] }}" />
+                            <input type="hidden" name="accessory_id" value="{{ $data['accesory_id'] }}" />
+                            <input type="hidden" name="numerodipersone" value="{{ $data['numerodipersone'] }}" />
+                            <input type="hidden" name="price_type" value="{{ $data['price_type'] }}" />
+                            <input type="hidden" name="final_amount" value="{{ $data['final_amount'] }}" />
+                            <input type="hidden" name="map_id" value="{{ $data['map_id'] }}" />
+                            <input type="hidden" name="from" value="{{ $data['from'] }}" />
+                            <input type="hidden" name="to" value="{{ $data['to'] }}" />
+                            <input type="hidden" name="final_amount" value="{{ $data['final_amount'] }}" />
                             <div class="row">
                                 <div class="col-xs-12">
-                                    <button class="btn btn-primary btn-lg btn-block" type="submit">Pay Now (&euro;{{ number_format($_GET['final_amount'], 2) }})</button>
+                                    <button class="btn btn-primary btn-lg btn-block" type="submit">Pay Now (&euro;{{ number_format($data['final_amount'], 2) }})</button>
                                 </div>
                             </div>
                         </form>

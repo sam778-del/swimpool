@@ -31,7 +31,8 @@ class FrontendController extends Controller
             'giornata' => $this->getFreeBed($request->arrivo, $request->partenza, 1),
             'data' => $this->getIds($request->arrivo, $request->partenza, $request->giornata)
         ];
-        return view('front.map', compact('data'));
+        //return view('front.map', compact('data'));
+        return $data['data'];
         //return $data['data'];
     }
 
@@ -79,10 +80,21 @@ class FrontendController extends Controller
         {
             $maps = Specification::whereIn('id', $request->map_id)->get();
             $map_id = json_encode($request->map_id);
-            return view('front.index', compact('maps', 'map_id'));
+            $price_type = $request->price_type;
+            $data = [
+                'arrivo' => $request->arrivo,
+                'partenza' => $request->partenza,
+                'giorbata' => $request->price_type
+            ];
+            return view('front.index', compact('maps', 'map_id', 'price_type', 'data'));
+            //return $request->map_id;
         }else{
             return redirect()->back()->with('error', __('Nessun dato selezionato'));
         }
+    }
+
+    function remove_empty($array) {
+        return array_filter($array, '_remove_empty_internal');
     }
 
     public function calculationMap(Request $request)
@@ -90,15 +102,28 @@ class FrontendController extends Controller
         $data = [];
         $data['start_date'] = $request->from;
         $data['end_date']   = $request->to;
+        $data['price_type'] = $request->price_type;
+        $data['numerodipersone'] = $request->numerodipersone;
+        $data['accesory_id'] = $request->accesory_id;
+        $data['map_id'] = $request->map_id;
         $data['map'] = Specification::whereIn('id', json_decode($request->map_id))->get();
         //return $data['map'];
         return view('front.calculation', compact('data'));
+        //return $request->all();
         //return $data['map'][0]['maps']->morning_price;
     }
 
     public function stripePayment(Request $request)
     {
-        return view('front.stripe');
+        $data = [];
+        $data['from'] = $request->from;
+        $data['to']   = $request->to;
+        $data['final_amount'] = $request->final_amount;
+        $data['price_type'] = $request->price_type;
+        $data['numerodipersone'] = $request->numerodipersone;
+        $data['accesory_id'] = $request->accesory_id;
+        $data['map_id'] = $request->map_id;
+        return view('front.stripe', compact('data'));
         //return $request->all();
     }
 
@@ -192,13 +217,48 @@ class FrontendController extends Controller
                 return redirect()->back()->with('error', __('Payment cannot be processed'));
             }
         } catch (\Exception $e) {
-           return redirect()->back()->with('error', $e->getMessage());
+           return redirect()->intended('/')->with('error', $e->getMessage());
+        }
+    }
+
+    public function checkValid(Request $request)
+    {
+        // if(Carbon::parse($request->partenza) <= date('d-m', strtotime('19-09')))
+        // {
+            
+        // }else{
+        //     return redirect()->back()->with('error', __('Siamo chiusi'));
+        // }
+        switch ($request->method()) {
+            case 'POST':
+                $data = [
+                    'row' => $this->getRow(),
+                    'column' => $this->getColumn(),
+                    'mattina' => $this->getFreeBed(date('Y-m-d', strtotime($request->arrivo)), date('Y-m-d', strtotime($request->partenza)), 2),
+                    'pomeriggio' => $this->getFreeBed(date('Y-m-d', strtotime($request->arrivo)), date('Y-m-d', strtotime($request->partenza)), 3),
+                    'giornata' => $this->getFreeBed(date('Y-m-d', strtotime($request->arrivo)), date('Y-m-d', strtotime($request->partenza)), 1),
+                    'data' => $this->getIds(date('Y-m-d', strtotime($request->arrivo)), date('Y-m-d', strtotime($request->partenza)), $request->day),
+                    'arrivo' => $request->arrivo,
+                    'partenza' => $request->partenza,
+                    'giorbata' => $request->day
+                ];
+                return view('front.map', compact('data'));
+                //return $data['data'];
+                break;
+    
+            case 'GET':
+                return redirect()->intended('/');
+                break;
+    
+            default:
+                return redirect()->intended('/');
+                break;
         }
     }
 
     public function getRow()
     {
-        $rowArray = range(1, env('row'));
+        $rowArray = range(1, env('front'));
         return $rowArray;
     }
 

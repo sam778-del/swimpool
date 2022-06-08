@@ -44,87 +44,88 @@
                                     $counter++;   
                                     $sp = \App\Models\Specification::getSpec($counter);     
                                 @endphp
-                                
-                                @if($sp->type == 'lettino')
-                                    <td style="background:blue;">
-                                        {!! Form::open(["route" => ["table-map.update", $sp->id], "method" => "PATCH"]) !!}
-                                            <input  type=text style="background:blue;" name="nome" value="{{ $sp->spec_id }}" size=1 />
-                                            <input type="hidden" name="item_id" value="{{ $sp->id }}"/>
-                                            <select name="type"  type=text style="background:blue;" >
-                                                <option value=lettino >L</option>
-                                                <option value=ombrellone >O</option>
-                                                <option value=-1 >-</option>
-                                                <option value=gazebo >G</option>
-                                                <option value=passerella >P</option>
-                                                <option value="beach">B</option>
-                                            </select>
-                                            <input type=image src="{{ asset('images/ok.png') }}" />
-                                        {!! Form::close() !!}
-                                    </td>
-                                @elseif($sp->type == 'ombrellone')
-                                    <td style="background:#009966;">
-                                        {!! Form::open(["route" => ["table-map.update", $sp->id], "method" => "PATCH"]) !!}
-                                            <input  type=text style="background:#009966;" name="nome" value="{{ $sp->spec_id }}" size=1 />
-                                            <input type="hidden" name="item_id" value="{{ $sp->id }}"/>
-                                            <select name="type"  type=text style="background:#009966;" >
-                                                <option value=lettino >L</option>
-                                                <option value=ombrellone >O</option>
-                                                <option value=-1 >-</option>
-                                                <option value=gazebo >G</option>
-                                                <option value=passerella >P</option>
-                                                <option value="beach">B</option>
-                                            </select>
-                                            <input type=image src="{{ asset('images/ok.png') }}" />
-                                        {!! Form::close() !!}
-                                    </td>
-                                @elseif($sp->type == '-1' || $sp->type == '-' || $sp->type == 'beach')
-                                    <td style="background:#FFCC33;opacity:0.5">
-                                        {!! Form::open(["route" => ["table-map.update", $sp->id], "method" => "PATCH"]) !!}
-                                            <input  type=text style="background:#FFCC33;" name="nome" value="{{ $sp->spec_id }}" size=1 />
-                                            <input type="hidden" name="item_id" value="{{ $sp->id }}"/>
-                                            <select name="type"  type=text style="background:#FFCC33;" >
-                                                <option value=lettino >L</option>
-                                                <option value=ombrellone >O</option>
-                                                <option value=-1 >-</option>
-                                                <option value=gazebo >G</option>
-                                                <option value=passerella >P</option>
-                                                <option value="beach">B</option>
-                                            </select>
-                                            <input type=image src="{{ asset('images/ok.png') }}" />
-                                        {!! Form::close() !!}
-                                    </td>
-                                @elseif($sp->type == 'gazebo')
-                                    <td style="background:gray;">
-                                        {!! Form::open(["route" => ["table-map.update", $sp->id], "method" => "PATCH"]) !!}
-                                            <input  type=text style="background:gray;" name="nome" value="{{ $sp->spec_id }}" size=1 />
-                                            <input type="hidden" name="item_id" value="{{ $sp->id }}"/>
-                                            <select name="type"  type=text style="background:gray;" >
-                                                <option value=lettino >L</option>
-                                                <option value=ombrellone >O</option>
-                                                <option value=-1 >-</option>
-                                                <option value=gazebo >G</option>
-                                                <option value=passerella >P</option>
-                                                <option value="beach">B</option>
-                                            </select>
-                                            <input type=image src="{{ asset('images/ok.png') }}" />
-                                        {!! Form::close() !!}
-                                    </td>
-                                @else
-                                    <td style="background:brown;">
-                                        {!! Form::open(["route" => ["table-map.update", $sp->id], "method" => "PATCH"]) !!}
-                                            <input  type=text style="background:brown;" name="nome" value="{{ $sp->spec_id }}" size=1 />
-                                            <input type="hidden" name="item_id" value="{{ $sp->id }}"/>
-                                            <select name="type"  type=text style="background:brown;" >
-                                                <option value=lettino >L</option>
-                                                <option value=ombrellone >O</option>
-                                                <option value=-1 >-</option>
-                                                <option value=gazebo >G</option>
-                                                <option value=passerella >P</option>
-                                                <option value="beach">B</option>
-                                            </select>
-                                            <input type=image src="{{ asset('images/ok.png') }}" />
-                                        {!! Form::close() !!}
-                                    </td>
+                                @if(!empty($sp->type))
+                                    @if($sp->type == 'lettino')
+                                        <td style="background:blue;">
+                                            {!! Form::open(["route" => ["table-map.update", $sp->id], "method" => "PATCH"]) !!}
+                                                <input  type=text style="background:blue;" name="nome" value="{{ $sp->spec_id }}" size=1 />
+                                                <input type="hidden" name="item_id" value="{{ $sp->id }}"/>
+                                                <select name="type"  type=text style="background:blue;" >
+                                                    <option value=lettino >L</option>
+                                                    <option value=ombrellone >O</option>
+                                                    <option value=-1 >-</option>
+                                                    <option value=gazebo >G</option>
+                                                    <option value=passerella >P</option>
+                                                    <option value="beach">B</option>
+                                                </select>
+                                                <input type=image src="{{ asset('images/ok.png') }}" />
+                                            {!! Form::close() !!}
+                                        </td>
+                                    @elseif($sp->type == 'ombrellone')
+                                        <td style="background:#009966;">
+                                            {!! Form::open(["route" => ["table-map.update", $sp->id], "method" => "PATCH"]) !!}
+                                                <input  type=text style="background:#009966;" name="nome" value="{{ $sp->spec_id }}" size=1 />
+                                                <input type="hidden" name="item_id" value="{{ $sp->id }}"/>
+                                                <select name="type"  type=text style="background:#009966;" >
+                                                    <option value=lettino >L</option>
+                                                    <option value=ombrellone >O</option>
+                                                    <option value=-1 >-</option>
+                                                    <option value=gazebo >G</option>
+                                                    <option value=passerella >P</option>
+                                                    <option value="beach">B</option>
+                                                </select>
+                                                <input type=image src="{{ asset('images/ok.png') }}" />
+                                            {!! Form::close() !!}
+                                        </td>
+                                    @elseif($sp->type == '-1' || $sp->type == '-' || $sp->type == 'beach')
+                                        <td style="background:#FFCC33;opacity:0.5">
+                                            {!! Form::open(["route" => ["table-map.update", $sp->id], "method" => "PATCH"]) !!}
+                                                <input  type=text style="background:#FFCC33;" name="nome" value="{{ $sp->spec_id }}" size=1 />
+                                                <input type="hidden" name="item_id" value="{{ $sp->id }}"/>
+                                                <select name="type"  type=text style="background:#FFCC33;" >
+                                                    <option value=lettino >L</option>
+                                                    <option value=ombrellone >O</option>
+                                                    <option value=-1 >-</option>
+                                                    <option value=gazebo >G</option>
+                                                    <option value=passerella >P</option>
+                                                    <option value="beach">B</option>
+                                                </select>
+                                                <input type=image src="{{ asset('images/ok.png') }}" />
+                                            {!! Form::close() !!}
+                                        </td>
+                                    @elseif($sp->type == 'gazebo')
+                                        <td style="background:gray;">
+                                            {!! Form::open(["route" => ["table-map.update", $sp->id], "method" => "PATCH"]) !!}
+                                                <input  type=text style="background:gray;" name="nome" value="{{ $sp->spec_id }}" size=1 />
+                                                <input type="hidden" name="item_id" value="{{ $sp->id }}"/>
+                                                <select name="type"  type=text style="background:gray;" >
+                                                    <option value=lettino >L</option>
+                                                    <option value=ombrellone >O</option>
+                                                    <option value=-1 >-</option>
+                                                    <option value=gazebo >G</option>
+                                                    <option value=passerella >P</option>
+                                                    <option value="beach">B</option>
+                                                </select>
+                                                <input type=image src="{{ asset('images/ok.png') }}" />
+                                            {!! Form::close() !!}
+                                        </td>
+                                    @else
+                                        <td style="background:brown;">
+                                            {!! Form::open(["route" => ["table-map.update", $sp->id], "method" => "PATCH"]) !!}
+                                                <input  type=text style="background:brown;" name="nome" value="{{ $sp->spec_id }}" size=1 />
+                                                <input type="hidden" name="item_id" value="{{ $sp->id }}"/>
+                                                <select name="type"  type=text style="background:brown;" >
+                                                    <option value=lettino >L</option>
+                                                    <option value=ombrellone >O</option>
+                                                    <option value=-1 >-</option>
+                                                    <option value=gazebo >G</option>
+                                                    <option value=passerella >P</option>
+                                                    <option value="beach">B</option>
+                                                </select>
+                                                <input type=image src="{{ asset('images/ok.png') }}" />
+                                            {!! Form::close() !!}
+                                        </td>
+                                    @endif
                                 @endif
                             @endforeach
                         </tr>
