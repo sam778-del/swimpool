@@ -62,4 +62,16 @@ class OrderController extends Controller
             return redirect()->back()->with('error', __('Permesso negato.'));
         }
     }
+
+    public function destroy(Order $order)
+    {
+        if(Auth::user()->can('Manage Order'))
+        {
+            HoldOrder::where('order_id', $order->id)->delete();
+            $order->delete();
+            return redirect()->back()->with("success", __("Informazioni modifica con successo."));
+        }else{
+            return redirect()->back()->with('error', __('Permesso negato.'));
+        }
+    }
 }

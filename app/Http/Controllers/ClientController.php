@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\User;
 use App\Models\Customer;
 use Yajra\DataTables\DataTables;
+use App\Models\Order;
 use Auth;
 use Validator;
 
@@ -105,6 +106,21 @@ class ClientController extends Controller
         $input = $request->all();
         $customer->update($input);
         return redirect()->route("client.index")->with("success", __("Informazioni modifica con successo."));
+    }
+
+    public function show(Customer $client)
+    {
+        $order = Order::orderBy('id', 'DESC')->where(function($query) use ($client) {
+            $query->where('name', $client->first_name.' '.$client->last_name)
+            ->orWhere('email', $client->email)
+            ->orWhere('mobile_number', $client->mobile_number);
+        })->get();
+        if(!empty($order))
+        {
+            return view('client.show', compact('order', 'client'));
+        }else{
+            return redirect()->back('error', __('No order found for this client'));
+        }
     }
 
     public function destroy(Customer $customer)
