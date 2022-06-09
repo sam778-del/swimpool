@@ -11,6 +11,7 @@ use App\Http\Controllers\{
     ClientController,
     PriceController,
     AccesoryController,
+    ReportController,
     Auth\LoginController
 };
 
@@ -42,7 +43,7 @@ Route::resource('client', ClientController::class)->middleware(['auth']);
 Route::get('custpmer-datatables', [ClientController::class, 'datatables'])->name('client.datatables')->middleware(['auth']);
 
 Route::resource('order', OrderController::class)->middleware(['auth']);
-Route::resource('maunal-order', ManualOrderController::class)->middleware(['auth']);
+Route::resource('manual-order', ManualOrderController::class)->middleware(['auth']);
 Route::resource('table-map', MapController::class)->middleware(['auth']);
 Route::get('showMap', [MapController::class, 'show'])->middleware(['auth']);
 Route::post('updateMap', [MapController::class, 'update'])->middleware(['auth']);
@@ -63,6 +64,8 @@ Route::resource('order', OrderController::class)->middleware(['auth']);
 Route::get('get-order', [OrderController::class, 'datatables'])->name('order.datatables');
 
 Route::resource('price', PriceController::class)->middleware(['auth']);
+
+Route::resource('report', ReportController::class);
 
 Route::post('check-valid', [FrontendController::class, 'checkValid']);
 Route::post('aggiungiprenotazione1bisdaombrellonecliente', [FrontendController::class, 'insertMap']);

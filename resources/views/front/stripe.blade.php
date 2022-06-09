@@ -45,31 +45,44 @@
                             data-stripe-publishable-key="{{ env('STRIPE_KEY') }}"
                             id="payment-form">
                             @csrf
-                            <div class='form-row row'>
-                                <div class='col-xs-12 form-group required'>
-                                    <label class='control-label'>Customer Name</label>
-                                    <input class='form-control' name="name" size='8' type='text' required>
+                            @if(Auth::guest())
+                                <div class='form-row row'>
+                                    <div class='col-xs-12 form-group required'>
+                                        <label class='control-label'>Customer Name</label>
+                                        <input class='form-control' name="name" size='8' type='text' required>
+                                    </div>
                                 </div>
-                            </div>
-                            <div class='form-row row'>
-                                <div class='col-xs-12 form-group required'>
-                                    <label class='control-label'>Customer Email</label>
-                                    <input class='form-control' name="email" size='4' type='email' required>
+                                <div class='form-row row'>
+                                    <div class='col-xs-12 form-group required'>
+                                        <label class='control-label'>Customer Email</label>
+                                        <input class='form-control' name="email" size='4' type='email' required>
+                                    </div>
                                 </div>
-                            </div>
-                            <div class='form-row row'>
-                                <div class='col-xs-12 form-group required'>
-                                    <label class='control-label'>Mobile Number</label>
-                                    <input class='form-control' name="mobile_number" size='4' type='number' required>
+                                <div class='form-row row'>
+                                    <div class='col-xs-12 form-group required'>
+                                        <label class='control-label'>Mobile Number</label>
+                                        <input class='form-control' name="mobile_number" size='4' type='number' required>
+                                    </div>
                                 </div>
-                            </div>
-                            <div class="form-group">
-                                <label for="card-element">Credit or debit card</label>
-                                <div id="card-element" class="form-control" style='height: 2.4em; padding-top: .7em;'>
-                                  <!-- A Stripe Element will be inserted here. -->
+                                <div class="form-group">
+                                    <label for="card-element">Credit or debit card</label>
+                                    <div id="card-element" class="form-control" style='height: 2.4em; padding-top: .7em;'>
+                                    <!-- A Stripe Element will be inserted here. -->
+                                    </div>
+                                    <div id="card-errors" role="alert"></div>
                                 </div>
-                                <div id="card-errors" role="alert"></div>
-                            </div>
+                            @else
+                                <div class='form-row row'>
+                                    <div class='col-xs-12 form-group required'>
+                                        <label class='control-label'>Select Client</label>
+                                        <select class="form-select form-select-lg mb-3"" name="client_id">
+                                            @foreach (\App\Models\Customer::get(); as $item)
+                                                <option value="{{ $item->id }}">{{ $item->first_name.' '.$item->last_name }}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                </div>
+                            @endif
                             <input type="hidden" name="accessory_id" value="{{ $data['accesory_id'] }}" />
                             <input type="hidden" name="numerodipersone" value="{{ $data['numerodipersone'] }}" />
                             <input type="hidden" name="price_type" value="{{ $data['price_type'] }}" />
@@ -80,7 +93,11 @@
                             <input type="hidden" name="final_amount" value="{{ $data['final_amount'] }}" />
                             <div class="row">
                                 <div class="col-xs-12">
-                                    <button class="btn btn-primary btn-lg btn-block" type="submit">Pay Now (&euro;{{ number_format($data['final_amount'], 2) }})</button>
+                                    @if(Auth::guest())
+                                        <button class="btn btn-primary btn-lg btn-block" type="submit">Pay Now (&euro;{{ number_format($data['final_amount'], 2) }})</button>
+                                    @else
+                                        <button class="btn btn-primary btn-lg btn-block" type="submit">Confirm Booking (&euro;{{ number_format($data['final_amount'], 2) }})</button>
+                                    @endif
                                 </div>
                             </div>
                         </form>

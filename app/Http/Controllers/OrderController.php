@@ -65,7 +65,7 @@ class OrderController extends Controller
 
     public function destroy(Order $order)
     {
-        if(Auth::user()->can('Manage Order'))
+        if(Auth::user()->can('Delete Order'))
         {
             HoldOrder::where('order_id', $order->id)->delete();
             $order->delete();
