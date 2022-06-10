@@ -1866,8 +1866,8 @@ body {
     padding-top: 0px;
   }
   .featured-box.style-3 .featured-box-icon {
-    width: 70px;
-    height: 70px;
+    width: 65px;
+    height: 45px;
     -ms-flex-negative: 0;
     flex-shrink: 0;
     display: -webkit-box;
@@ -1883,9 +1883,9 @@ body {
 
   .round-circle.featured-box-icon{
     border-top-left-radius:50%!important;
+    border-top-right-radius:50%!important;
     background-color: yellow;
     background: yellow;
-    width: 50px;
   }
 
   .featured-box.style-4 .featured-box-icon {

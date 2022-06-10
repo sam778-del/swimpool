@@ -25,6 +25,9 @@
         @endphp
         @foreach($data['column'] as $key => $column)
             <table>
+                @php
+                    $it = 0;
+                @endphp
                 @foreach($data['row'] as $key => $row)
                     @php
                         $counter++;   
@@ -32,7 +35,22 @@
                     @endphp
                     @if(!empty($sp))
                         @if($sp->type == 'lettino')
-                            <td style="">
+                            @if(($key - 1) % 2 === 0)
+                                <td>
+                                    {{-- {{ json_encode($data['data']) }} --}}
+                                    <div class="featured-box style-4" onclick="setColor({{ $sp->id }})">
+                                        <div class="featured-box-icon btn btn-light text-primary round-circle" id="color{{ $sp->id }}"> 
+                                            <span id="map{{ $sp->id }}"></span>
+                                            <span class="w-100 text-12 font-weight-500">
+                                                <img style="background:transparent;" src="images/ico-lettino.png" width="25px" height="25px" title="" onclick="">
+                                            </span> 
+                                            <small style="font-size: 8px">{{ $sp->spec_id}}</small>
+                                        </div>
+                                    </div>
+                                </td>
+                                <?php continue ?>
+                            @endif
+                            <td>
                                 {{-- {{ json_encode($data['data']) }} --}}
                                 <div class="featured-box style-4" onclick="setColor({{ $sp->id }})">
                                     <div class="featured-box-icon btn btn-light text-primary round-circle" id="color{{ $sp->id }}"> 
@@ -40,6 +58,7 @@
                                         <span class="w-100 text-12 font-weight-500">
                                             <img style="background:transparent;" src="images/ico-lettino.png" width="25px" height="25px" title="" onclick="">
                                         </span> 
+                                        <small style="font-size: 8px">{{ $sp->spec_id}}</small>
                                     </div>
                                 </div>
                             </td>
