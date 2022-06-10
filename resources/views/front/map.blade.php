@@ -1,7 +1,13 @@
 @extends('layouts.layout')
 
 @push('stylesheets')
-    
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<style>
+    td {
+        border-collapse: separate;
+        border-spacing: 10px;
+    }
+</style>
 @endpush
 
 @section('content')
@@ -21,79 +27,93 @@
         <input type=hidden name="arrivo" class="mac" readonly value="{{ $data['arrivo'] }}"  >
          <input type=hidden name="partenza" class="mac" readonly value="{{ $data['partenza'] }}" >
         @php
-            $counter = 0;   
+            $counter = 0;
         @endphp
         @foreach($data['column'] as $key => $column)
             <table>
+                <tr>
                 @php
                     $it = 0;
                 @endphp
                 @foreach($data['row'] as $key => $row)
                     @php
-                        $counter++;   
-                        $sp = \App\Models\Specification::getOuterSpec($counter, $data['data']);     
+                        $counter++;
+                        $sp = \App\Models\Specification::getOuterSpec($counter, $data['data']);
                     @endphp
                     @if(!empty($sp))
                         @if($sp->type == 'lettino')
-                            @if(($key - 1) % 2 === 0)
-                                <td>
-                                    {{-- {{ json_encode($data['data']) }} --}}
+                                <td align="center" style="color: #000099; background-color: #f1f1f1">
+                                    @if(($key - 1) % 2 === 0)
+                                        <i class="fa fa-umbrella" align="center" style=" font-size:18px;padding-right:10px"></i>
+                                        <div class="featured-box style-4" onclick="setColor({{ $sp->id }})">
+                                            <div class="featured-box-icon btn btn-light text-primary round-circle" id="color{{ $sp->id }}">
+                                                <span id="map{{ $sp->id }}"></span>
+                                                <span class="w-100 text-12 font-weight-500">
+                                                    <img style="background:transparent;" src="images/ico-lettino.png" width="25px" height="25px" title="" onclick="">
+                                                </span>
+                                                <small style="font-size: 8px; color: black">{{ $sp->spec_id}}</small>
+                                            </div>
+                                        </div>
+                                        <?php continue ?>
+                                    @endif
                                     <div class="featured-box style-4" onclick="setColor({{ $sp->id }})">
-                                        <div class="featured-box-icon btn btn-light text-primary round-circle" id="color{{ $sp->id }}"> 
+                                        <div class="featured-box-icon btn btn-light text-primary round-circle" id="color{{ $sp->id }}">
                                             <span id="map{{ $sp->id }}"></span>
                                             <span class="w-100 text-12 font-weight-500">
                                                 <img style="background:transparent;" src="images/ico-lettino.png" width="25px" height="25px" title="" onclick="">
-                                            </span> 
-                                            <small style="font-size: 8px">{{ $sp->spec_id}}</small>
+                                            </span>
+                                            <small style="font-size: 8px; color: black">{{ $sp->spec_id}}</small>
                                         </div>
                                     </div>
                                 </td>
-                                <?php continue ?>
-                            @endif
-                            <td>
-                                {{-- {{ json_encode($data['data']) }} --}}
-                                <div class="featured-box style-4" onclick="setColor({{ $sp->id }})">
-                                    <div class="featured-box-icon btn btn-light text-primary round-circle" id="color{{ $sp->id }}"> 
-                                        <span id="map{{ $sp->id }}"></span>
-                                        <span class="w-100 text-12 font-weight-500">
-                                            <img style="background:transparent;" src="images/ico-lettino.png" width="25px" height="25px" title="" onclick="">
-                                        </span> 
-                                        <small style="font-size: 8px">{{ $sp->spec_id}}</small>
-                                    </div>
-                                </div>
-                            </td>
                             @elseif($sp->type == 'ombrellone')
 
-                            @elseif($sp->type == '-')
+                            @elseif($sp->type == '-' || $sp->type == 'beach')
                                 <td style="background-color: #f1f1f1">
                                     <div class="featured-box style-4">
-                                        <div class="featured-box-icon" style="background-color: transaprent;"> 
+                                        <div class="featured-box-icon" style="background-color: transaprent;">
                                         </div>
                                     </div>
                                 </td>
                             @elseif($sp->type == '-1')
-                                <td>
-                                    <div class="featured-box style-4 shadow-md">
-                                        <div class="featured-box-icon btn btn-light text-primary rounded-square" style="background-color: transparent;"> 
+                                <td style="background-image: url('{{ asset('images/swimpool.jpg') }}'); width: 60px">
+                                    {{-- <div class="featured-box style-4 shadow-md">
+                                        <div class="featured-box-icon btn btn-light text-primary rounded-square" style="background-color: transparent;">
                                         </div>
-                                    </div>
+                                    </div> --}}
                                 </td>
                             @elseif($sp->type == 'gazebo')
+                                @if(($key - 1) % 2 === 0)
+                                    <td style="background-color: #50B517; opacity: 0.8; border-top-right-radius: 50%; border-bottom-right-radius: 50%">
+                                        {{-- {{ json_encode($data['data']) }} --}}
+                                        <div class="featured-box style-4" onclick="setGazeboColor({{ $sp->id }})">
+                                            <div class="featured-box-icon btn btn-success text-primary round-circle" id="color{{ $sp->id }}">
+                                                <span id="map{{ $sp->id }}"></span>
+                                                <span class="w-100 text-12 font-weight-500">
+                                                    <img style="background:transparent;" src="images/ico-lettino.png" width="25px" height="25px" title="" onclick="">
+                                                </span>
+                                                <small style="font-size: 8px; color: white">{{ $sp->spec_id}}</small>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <?php continue; ?>
+                                @endif
                                 <td style="">
                                     {{-- {{ json_encode($data['data']) }} --}}
                                     <div class="featured-box style-4" onclick="setGazeboColor({{ $sp->id }})">
-                                        <div class="featured-box-icon btn btn-success text-primary round-circle" id="color{{ $sp->id }}"> 
+                                        <div class="featured-box-icon btn btn-success text-primary round-circle" id="color{{ $sp->id }}">
                                             <span id="map{{ $sp->id }}"></span>
                                             <span class="w-100 text-12 font-weight-500">
                                                 <img style="background:transparent;" src="images/ico-lettino.png" width="25px" height="25px" title="" onclick="">
-                                            </span> 
+                                            </span>
+                                            <small style="font-size: 8px; color: white">{{ $sp->spec_id}}</small>
                                         </div>
                                     </div>
                                 </td>
                         @else
-                            <td style="background-color: brown">
+                            <td style="background-image: url('images/passerella.png')">
                                 <div class="featured-box style-4">
-                                    <div class="featured-box-icon" style="background-color: brown;"> 
+                                    <div class="featured-box-icon" style="background-image: url('images/passerella.png')">
                                     </div>
                                 </div>
                             </td>
@@ -101,15 +121,16 @@
                     @else
                         <td>
                             <div class="featured-box style-4">
-                                <div class="featured-box-icon btn btn-light text-primary rounded-circle" style="background-color: red"> 
+                                <div class="featured-box-icon btn btn-light text-primary rounded-circle" style="background-color: red; border-top-left-radius: 60%; border-bottom-left-radius: 40%">
                                     <span class="w-100 text-12 font-weight-500">
                                         <img style="background:transparent;" src="images/ico-lettino.png" width="25px" height="25px" title="" onclick="">
-                                    </span> 
+                                    </span>
                                 </div>
                             </div>
                         </td>
                     @endif
                 @endforeach
+                </tr>
             </table>
         @endforeach
         <input type=hidden name="price_type" value="{{ $data['giorbata'] }}" />
@@ -117,7 +138,7 @@
     </form>
   </div>
 </section>
-<!-- Refer & Earn end --> 
+<!-- Refer & Earn end -->
 @endsection
 
 @push('scripts')

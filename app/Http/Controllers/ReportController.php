@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Carbon\Carbon;
+use App\Models\Order;
 
 class ReportController extends Controller
 {
@@ -16,31 +18,27 @@ class ReportController extends Controller
         return view('report.index');
     }
 
-    public function getOrderChart(array $arrParam)
+    public function create(Request $request)
     {
-        $arrDuration = [];
-        if($arrParam['duration'])
-        {
-            if($arrParam['duration'] == 'week')
-            {
-                $previous_week = strtotime("-2 week +1 day");
+        $data = $this->getOrderChart(explode(' - ', $request->date));
+        return response()->json(['html' => $data], 200);
+    }
 
-                for($i = 0; $i < 14; $i++)
-                {
-                    $arrDuration[date('Y-m-d', $previous_week)] = date('d-M', $previous_week);
+    public function getOrderChart(array $arrayParam)
+    {
+        $begin = new \DateTime( $arrayParam[0] );
+        $end = new \DateTime( $arrayParam[1] );
+        $end = $end->modify( '+1 day' );
+        $interval = new \DateInterval('P1D');
+        $daterange = new \DatePeriod($begin, $interval ,$end);
 
-                    $previous_week = strtotime(date('Y-m-d', $previous_week) . " +1 day");
-                }
-            }
-        }
         $arrTask = [];
-        foreach($arrDuration as $date => $label)
-        {
-            $data               = Order::wheereBetween('created_at')->select(DB::raw('SUM(amount) as total'))->whereDate('created_at', '=', $date)->first();
-            $arrTask['label'][] = $label;
+
+        foreach($daterange as $key => $dat){
+            $data               = Order::select(\DB::raw('SUM(amount) as total'))->whereDate('created_at', '=', $dat->format('Y-m-d'))->first();
+            $arrTask['label'][] = $dat->format('Y-m-d');
             $arrTask['data'][]  = $data->total;
         }
-
         return $arrTask;
     }
 }

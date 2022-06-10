@@ -31,9 +31,149 @@
 @endsection
 
 @push('scripts')
+<script src="{{ asset('bundles/apexcharts.bundle.js') }}"></script>
     <script>
         $(document).ready(function() {
             $('#analytics').html('<center><span class="spinner-border spinner-border-lg" role="status" aria-hidden="true"></span></center>');
+            setTimeout(() => {
+                $.ajax({
+                    type: 'GET',
+                    data: {
+                        date: $('input[name="daterange"]').val()
+                    },
+                    url: '{!! route('report.create') !!}',
+                    success:function(response) {
+                        if(response)
+                        {
+                            $('#analytics').html('');
+                            var analytics = {
+                                series: [
+                                    {
+                                        name: 'Total',
+                                        data: response.html['data']
+                                    }
+                                ],
+                                colors: ['var(--chart-color1)'],
+                                chart: {
+                                    type: 'bar',
+                                    height: 480,
+                                    toolbar: {
+                                        show: false,
+                                    },
+                                },
+                                plotOptions: {
+                                    bar: {
+                                        horizontal: false,
+                                        columnWidth: '35%',
+                                        //endingShape: 'rounded'
+                                    },
+                                },
+                                dataLabels: {
+                                    enabled: false
+                                },
+                                stroke: {
+                                    show: true,
+                                    width: 1,
+                                    colors: ['transparent']
+                                },
+                                xaxis: {
+                                    categories: response.html['label'],
+                                },
+                                legend: {
+                                    position: 'bottom', // left, right, top, bottom
+                                    horizontalAlign: 'left',  // left, right, top, bottom
+                                },
+                                fill: {
+                                    opacity: 1
+                                },
+                                tooltip: {
+                                    y: {
+                                        formatter: function (val) {
+                                        return "&euro; " + val
+                                        }
+                                    }
+                                },
+                            };
+                            new ApexCharts(document.querySelector("#analytics"), analytics).render();
+
+                        }else{
+                            $('#analytics').html('<center>Error fetching data</center>');
+                        }
+                    }
+                });
+            }, 1000);
+        });
+
+        $('input[name="daterange"]').change(function() {
+            $('#analytics').html('<center><span class="spinner-border spinner-border-lg" role="status" aria-hidden="true"></span></center>');
+            setTimeout(() => {
+                $.ajax({
+                    type: 'GET',
+                    data: {
+                        date: $('input[name="daterange"]').val()
+                    },
+                    url: '{!! route('report.create') !!}',
+                    success:function(response) {
+                        console.log(response);
+                        if(response)
+                        {
+                            $('#analytics').html('');
+                            var analytics = {
+                                series: [
+                                    {
+                                        name: 'Total',
+                                        data: response.html['data']
+                                    }
+                                ],
+                                colors: ['var(--chart-color1)'],
+                                chart: {
+                                    type: 'bar',
+                                    height: 480,
+                                    toolbar: {
+                                        show: false,
+                                    },
+                                },
+                                plotOptions: {
+                                    bar: {
+                                        horizontal: false,
+                                        columnWidth: '35%',
+                                        //endingShape: 'rounded'
+                                    },
+                                },
+                                dataLabels: {
+                                    enabled: false
+                                },
+                                stroke: {
+                                    show: true,
+                                    width: 1,
+                                    colors: ['transparent']
+                                },
+                                xaxis: {
+                                    categories: response.html['label'],
+                                },
+                                legend: {
+                                    position: 'bottom', // left, right, top, bottom
+                                    horizontalAlign: 'left',  // left, right, top, bottom
+                                },
+                                fill: {
+                                    opacity: 1
+                                },
+                                tooltip: {
+                                    y: {
+                                        formatter: function (val) {
+                                        return "&euro; " + val
+                                        }
+                                    }
+                                },
+                            };
+                            new ApexCharts(document.querySelector("#analytics"), analytics).render();
+
+                        }else{
+                            $('#analytics').html('<center>Error fetching data</center>');
+                        }
+                    }
+                });
+            }, 1000);
         });
     </script>
     <script src="{{ asset('bundles/daterangepicker.bundle.js') }}"></script>

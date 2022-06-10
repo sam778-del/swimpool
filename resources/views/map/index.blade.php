@@ -35,14 +35,14 @@
             <table id="table_list" style="width: 50%" class="table align-middle mb-0 card-table" cellspacing="0">
                 <thead>
                     @php
-                        $counter = 0;   
+                        $counter = 0;
                     @endphp
                     @foreach($data['column'] as $key => $column)
                         <tr>
                             @foreach($data['row'] as $key => $row)
                                 @php
-                                    $counter++;   
-                                    $sp = \App\Models\Specification::getSpec($counter);     
+                                    $counter++;
+                                    $sp = \App\Models\Specification::getSpec($counter);
                                 @endphp
                                 @if(!empty($sp->type))
                                     @if($sp->type == 'lettino')
@@ -53,7 +53,7 @@
                                                 <select name="type"  type=text style="background:blue;" >
                                                     <option value=lettino >L</option>
                                                     <option value=ombrellone >O</option>
-                                                    <option value=-1 >-</option>
+                                                    <option value="-1" {{ $sp->type == '-1' ? 'selected' : ''}}>-</option>
                                                     <option value=gazebo >G</option>
                                                     <option value=passerella >P</option>
                                                     <option value="beach">B</option>
@@ -69,7 +69,7 @@
                                                 <select name="type"  type=text style="background:#009966;" >
                                                     <option value=lettino >L</option>
                                                     <option value=ombrellone >O</option>
-                                                    <option value=-1 >-</option>
+                                                    <option value="-1" {{ $sp->type == '-1' ? 'selected' : ''}}>-</option>
                                                     <option value=gazebo >G</option>
                                                     <option value=passerella >P</option>
                                                     <option value="beach">B</option>
@@ -85,7 +85,7 @@
                                                 <select name="type"  type=text style="background:#FFCC33;" >
                                                     <option value=lettino >L</option>
                                                     <option value=ombrellone >O</option>
-                                                    <option value=-1 >-</option>
+                                                    <option value="-1" {{ $sp->type == '-1' ? 'selected' : ''}}>-</option>
                                                     <option value=gazebo >G</option>
                                                     <option value=passerella >P</option>
                                                     <option value="beach">B</option>
@@ -101,7 +101,7 @@
                                                 <select name="type"  type=text style="background:gray;" >
                                                     <option value=lettino >L</option>
                                                     <option value=ombrellone >O</option>
-                                                    <option value=-1 >-</option>
+                                                    <option value="-1" {{ $sp->type == '-1' ? 'selected' : ''}}>-</option>
                                                     <option value=gazebo >G</option>
                                                     <option value=passerella >P</option>
                                                     <option value="beach">B</option>
@@ -117,7 +117,7 @@
                                                 <select name="type"  type=text style="background:brown;" >
                                                     <option value=lettino >L</option>
                                                     <option value=ombrellone >O</option>
-                                                    <option value=-1 >-</option>
+                                                    <option value="-1" {{ $sp->type == '-1' ? 'selected' : ''}}>-</option>
                                                     <option value=gazebo >G</option>
                                                     <option value=passerella >P</option>
                                                     <option value="beach">B</option>

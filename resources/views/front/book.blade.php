@@ -9,11 +9,11 @@
 				@csrf
 				 <div class="col-md-4 col-lg form-group">
 					 <label>DAL:</label>
-					 <input id="startDate" name="arrivo" type="text" class="form-control" required placeholder="DAL:" autocomplete="off">
+					 <input id="startDate" name="arrivo" type="text" value="{{ date('d-m-Y') }}" class="form-control" required placeholder="DAL:" autocomplete="off">
 				 </div>
 				 <div class="col-md-4 col-lg form-group">
 					 <label>AL:</label>
-					 <input id="endDate" name="partenza" type="text" class="form-control" required placeholder="AL:" autocomplete="off">
+					 <input id="endDate" name="partenza" type="text" value="{{ date('d-m-Y') }}" class="form-control" required placeholder="AL:" autocomplete="off">
 				 </div>
 				 <div class="col-md-4 col-lg form-group">
 					 <select class="form-control" name="day">
@@ -27,7 +27,7 @@
 					  <div class="form-check text-2 custom-control custom-checkbox">
 						 <input id="remember-me" name="remember" class="custom-control-input" type="checkbox">
 						 <label class="custom-control-label" for="remember-me"><p>Ho letto ed accetto il regolamento prenotazioni on line e l'informativa sulla privacy,
-							 <br>ed acconsento al trattamento 
+							 <br>ed acconsento al trattamento
 							 dei dati personali.
 						   </p></label>
 					  </div>
@@ -42,9 +42,10 @@
 @endsection
 
 @push('scripts')
-<script src="{{ asset('front/moment.min.js') }}"></script> 
+<script src="{{ asset('front/moment.min.js') }}"></script>
 <script src="{{ asset('front/daterangepicker.js') }}"></script>
 <script>
+
 	$('#startDate').daterangepicker({
 		singleDatePicker: true,
 		autoApply: true,
@@ -52,6 +53,7 @@
 		autoUpdateInput: false,
 	}, function(chosen_date) {
 		$('#startDate').val(chosen_date.format('DD-MM-YYYY'));
+        $('#endDate').val(chosen_date.format('DD-MM-YYYY'));
 	});
 
 	$('#endDate').daterangepicker({
@@ -78,5 +80,5 @@
 	});
 </script>
 <script type="text/javascript" src="{{ asset('vendor/jsvalidation/js/jsvalidation.js')}}"></script>
-{!! JsValidator::formRequest('App\Http\Requests\BookRequest', '#postForm') !!}	
+{!! JsValidator::formRequest('App\Http\Requests\BookRequest', '#postForm') !!}
 @endpush
