@@ -31,7 +31,7 @@ class ClientController extends Controller
                             return '<a href=" '.route('client.show', $customer->id).' " class="btn btn-link bg-light"><i class="fa fa-eye"></i></a>';
                         })
                         ->addColumn('action', function(Customer $data) {
-                            return '<a href=" '.route('client.edit', $data->id).'?id='.$data->id.' " class="btn btn-link btn-sm color-400"><i class="fa fa-pencil"></i></a> <a href="javascript:void(0);" onclick="deleteAction(&quot;' . route('client.destroy', $data->id).'?id='.$data->id . '&quot)" class="btn btn-link btn-sm color-400"><i class="fa fa-trash"></i></a>';
+                            return '<a href=" '.route('client.edit', $data->id).'?id='.$data->id.' " class="btn btn-link btn-sm color-400"><i class="fa fa-pencil"></i></a> ';
                         })
                         ->rawColumns(['report', 'customer_name', 'action'])
                         ->toJson();

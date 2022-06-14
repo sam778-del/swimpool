@@ -7,20 +7,20 @@
 		  <div class="bg-white shadow-md rounded p-3 pt-sm-4 pb-sm-5 px-sm-5">
 			 <form id="postForm" method="POST" action="{{ url('check-valid') }}">
 				@csrf
+				<div class="col-md-4 col-lg form-group">
+					<label>DAL:</label>
+					<input id="startDate" name="arrivo" type="text" value="{{ date('d-m-Y') }}" class="form-control" required placeholder="DAL:" autocomplete="off">
+				</div>
+				<div class="col-md-4 col-lg form-group">
+					<label>AL:</label>
+					<input id="endDate" name="partenza" type="text" value="{{ date('d-m-Y') }}" class="form-control" required placeholder="AL:" autocomplete="off">
+				</div>
 				 <div class="col-md-4 col-lg form-group">
-					 <label>DAL:</label>
-					 <input id="startDate" name="arrivo" type="text" class="form-control" required placeholder="DAL:" autocomplete="off">
-				 </div>
-				 <div class="col-md-4 col-lg form-group">
-					 <label>AL:</label>
-					 <input id="endDate" name="partenza" type="text" class="form-control" required placeholder="AL:" autocomplete="off">
-				 </div>
-				 <div class="col-md-4 col-lg form-group">
-					 <select class="form-control" name="day">
-						 <option value="1" >GIORNATA INTERA 9:00-18:00</option>
-						 <option value="2" >MATTINA 9:00-13:00</option>
-						 <option value="3" >POMERIGGIO 13:30-18:00</option>
-					 </select>
+					<select class="form-control" name="day">
+						<option value="1" >GIORNATA INTERA 9:00-18:00</option>
+						<option value="2" >MATTINA 9:00-13:00</option>
+						<option value="3" >POMERIGGIO 13:30-18:00</option>
+					</select>
 				 </div>
 				<div class="row my-12">
 				   <div class="col">
@@ -42,9 +42,10 @@
 @endsection
 
 @push('scripts')
-<script src="{{ asset('front/moment.min.js') }}"></script> 
+<script src="{{ asset('front/moment.min.js') }}"></script>
 <script src="{{ asset('front/daterangepicker.js') }}"></script>
 <script>
+
 	$('#startDate').daterangepicker({
 		singleDatePicker: true,
 		autoApply: true,
@@ -52,6 +53,7 @@
 		autoUpdateInput: false,
 	}, function(chosen_date) {
 		$('#startDate').val(chosen_date.format('DD-MM-YYYY'));
+        $('#endDate').val(chosen_date.format('DD-MM-YYYY'));
 	});
 
 	$('#endDate').daterangepicker({
@@ -78,5 +80,5 @@
 	});
 </script>
 <script type="text/javascript" src="{{ asset('vendor/jsvalidation/js/jsvalidation.js')}}"></script>
-{!! JsValidator::formRequest('App\Http\Requests\BookRequest', '#postForm') !!}	
+{!! JsValidator::formRequest('App\Http\Requests\BookRequest', '#postForm') !!}
 @endpush

@@ -53,7 +53,7 @@
                             <td>{{ $key + 1 }}</td>
                             <td>{{ $item->order_id }}</td>
                             <td>
-                                @if(!empty($order->card_number) && !empty($order->card_exp_month) && !empty($order->card_exp_year))
+                                @if(!empty($item->card_number) && !empty($item->card_exp_month) && !empty($item->card_exp_year))
                                     <p class="text-center">Card</p>
                                 @else
                                     <p class="text-center">Cash</p>

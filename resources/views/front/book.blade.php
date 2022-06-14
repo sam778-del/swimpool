@@ -12,9 +12,12 @@
 					 <input id="startDate" name="arrivo" type="text" value="{{ date('d-m-Y') }}" class="form-control" required placeholder="DAL:" autocomplete="off">
 				 </div>
 				 <div class="col-md-4 col-lg form-group">
-					 <label>AL:</label>
-					 <input id="endDate" name="partenza" type="text" value="{{ date('d-m-Y') }}" class="form-control" required placeholder="AL:" autocomplete="off">
-				 </div>
+					<select class="form-control" name="day">
+						<option value="soccer1" >Soccer 1</option>
+						<option value="soccer2" >Soccer 2</option>
+						<option value="tennis" >Tennis</option>
+					</select>
+				</div>
 				 <div class="col-md-4 col-lg form-group">
 					 <select class="form-control" name="day">
 						 <option value="1" >GIORNATA INTERA 9:00-18:00</option>

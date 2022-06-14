@@ -17,12 +17,6 @@
          </div>
          <div class="col-12">
                <div class="mb-2">
-                  <div class="form-label">
-                     <span class="d-flex justify-content-between align-items-center">
-                           {{ __('Password') }}
-                           <a class="text-primary" href="auth-password-reset.html">{{ __('Forgot Password?') }}</a>
-                     </span>
-                  </div>
                   <input type="password" name="password" class="form-control form-control-lg" placeholder="***************">
                </div>
          </div>
