@@ -75,7 +75,7 @@
                                 <div class='form-row row'>
                                     <div class='col-xs-12 form-group required'>
                                         <label class='control-label'>Select Client</label>
-                                        <select class="form-select form-select-lg mb-3"" name="client_id">
+                                        <select class="form-select form-select-lg mb-3" name="client_id">
                                             @foreach (\App\Models\Customer::get(); as $item)
                                                 <option value="{{ $item->id }}">{{ $item->first_name.' '.$item->last_name }}</option>
                                             @endforeach
@@ -83,20 +83,35 @@
                                     </div>
                                 </div>
                             @endif
-                            <input type="hidden" name="accessory_id" value="{{ $data['accesory_id'] }}" />
-                            <input type="hidden" name="numerodipersone" value="{{ $data['numerodipersone'] }}" />
-                            <input type="hidden" name="price_type" value="{{ $data['price_type'] }}" />
-                            <input type="hidden" name="final_amount" value="{{ $data['final_amount'] }}" />
-                            <input type="hidden" name="map_id" value="{{ $data['map_id'] }}" />
+                            @if($data['player'])
+                                <input type="hidden" name="player" value="{{ $data['player'] }}" />
+                            @endif
+                            <input type="hidden" name="day" value="{{ $data['day'] }}" />
+                            <input type="hidden" name="item_id" value="{{ $data['item_id'] }}" />
                             <input type="hidden" name="from" value="{{ $data['from'] }}" />
-                            <input type="hidden" name="to" value="{{ $data['to'] }}" />
-                            <input type="hidden" name="final_amount" value="{{ $data['final_amount'] }}" />
+                            <input type="hidden" name="final_amount" value="{{ $data['final_amount']->amount }}" />
                             <div class="row">
+                                @php
+                                    if(!empty($data['player']))
+                                    {
+                                        if($data['player'] == 2)
+                                        {
+                                            $final_amount = $data['final_amount']->amount;
+                                        }
+
+                                        if($data['player'] == 4)
+                                        {
+                                            $final_amount = $data['final_amount']->amount + 6;
+                                        }
+                                    }else{
+                                        $final_amount = $data['final_amount']->amount;   
+                                    }
+                                @endphp
                                 <div class="col-xs-12">
                                     @if(Auth::guest())
-                                        <button class="btn btn-primary btn-lg btn-block" type="submit">Pay Now (&euro;{{ number_format($data['final_amount'], 2) }})</button>
+                                        <button class="btn btn-primary btn-lg btn-block" type="submit">Pay Now (&euro;{{ number_format($final_amount, 2) }})</button>
                                     @else
-                                        <button class="btn btn-primary btn-lg btn-block" type="submit">Confirm Booking (&euro;{{ number_format($data['final_amount'], 2) }})</button>
+                                        <button class="btn btn-primary btn-lg btn-block" type="submit">Confirm Booking (&euro;{{ number_format($final_amount, 2) }})</button>
                                     @endif
                                 </div>
                             </div>

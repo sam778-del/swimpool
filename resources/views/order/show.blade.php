@@ -28,8 +28,6 @@
                                 <th>Nome</th>
                                 <th>Booked Date</th>
                                 <th class="text-center">Amount</th>
-                                <th class="text-center">Numbero Di Personne</th>
-                                <th>Accessory</th>
                                 <th>Day</th>
                             </tr>
                         </thead>
@@ -37,17 +35,8 @@
                             <?php $total_price = 0 ?>
                             @foreach ($data['maps'] as $item)
                                 @php
-                                    $map = \App\Models\Specification::findorfail($item->map_id);   
-                                    $accessory = \App\Models\Accesory::find($item->accessory_id);
-                                    $ConverDate = date("l", strtotime($item->booked_date));
-                                    $ConverDateTomatch = strtolower($ConverDate);
+                                    $map = \App\Models\Soccer::findorfail($item->map_id);   
                                     $priceType = $item->day;
-                                    if($accessory)
-                                    {
-                                        $accessoryAmount = $accessory->amount;
-                                    }else{
-                                        $accessoryAmount = 0;
-                                    }
                                     $price = $item->amount;
                                     $total_price += $price;
                                 @endphp
@@ -55,9 +44,9 @@
                                 <tr>
                                     <td>{{ $order->order_id }}</td>
                                     <td>
-                                        <div class="d-flex align-items-center"> <img src="{{ asset('images/ico-lettino.png') }}" class="rounded-circle avatar" alt="">
+                                        <div class="d-flex align-items-center"> 
                                             <div class="ms-2">
-                                                <div class="mb-0">{{ $map->type.' '.$map->spec_id }}</div> 
+                                                <div class="mb-0">{{ $map->name }}</div> 
                                             </div>
                                         </div>
                                     </td>
@@ -67,18 +56,8 @@
                                     <td class="text-center">
                                         <div><span class="fw-bold ms-1">&euro;{{ $price }}</span></div>
                                     </td>
-                                    <td class="text-center">
-                                        {{ $item->persons }}
-                                    </td>
-                                    <td class="text-center"><span class="badge bg-success">{{ !empty($accessory->name) ? 'Con '.$accessory->name  : '' }}</span></td>
                                     <td class="project-actions">
-                                        @if($item->day == 1)
-                                            GIORNATA INTERA 9:00-18:00
-                                        @elseif($item->day == 2)
-                                            MATTINA 9:00-13:00
-                                        @else
-                                            POMERIGGIO 13:30-18:00
-                                        @endif
+                                        {{ $map->duration }}
                                     </td>
                                 </tr>
                             @endforeach
@@ -90,8 +69,6 @@
                                 <th></th>
                                 <th class="text-center"><div>Total Amount: <span class="fw-bold ms-1">&euro;{{ $total_price }}</span></div></th>
                                 <th class="text-center"></th>
-                                <th></th>
-                                <th></th>
                             </tr>
                         </tfoot>
                     </table>

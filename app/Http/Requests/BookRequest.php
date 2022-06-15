@@ -24,8 +24,7 @@ class BookRequest extends FormRequest
     public function rules()
     {
         return [
-            'arrivo' => 'required',
-            'partenza' => 'required'
+            'arrivo' => 'required|date',
         ];
     }
 }

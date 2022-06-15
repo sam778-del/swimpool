@@ -7,18 +7,6 @@
 		  <div class="bg-white shadow-md rounded p-3 pt-sm-4 pb-sm-5 px-sm-5">
 			 <form id="postForm" method="POST" action="{{ url('calcolaprezzocliente') }}">
 				@csrf
-				<h4>Scelta di eventuali accessori</h4>
-				 <div class="col-md-4 col-lg form-group">
-					 @foreach ($maps as $item)
-					 	<label>Scegli accessori per {{ $item->type }} {{ $item->spec_id }}:</label>
-						<select class="form-control" name="accesory_id[]">
-							<option value="">Nessun accessorio</option>
-							@foreach (\DB::table('accesories')->get(); as $item)
-								<option value="{{ $item->id }}">{{ $item->name }}</option>
-							@endforeach
-						</select>
-					@endforeach
-				 </div>
 				 <div class="col-md-4 col-lg form-group">
 					 <label>Numero di persone:</label>
 					 <select class="form-control" name=numerodipersone>

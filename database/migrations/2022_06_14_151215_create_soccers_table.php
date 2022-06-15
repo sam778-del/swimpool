@@ -14,7 +14,11 @@ class CreateSoccersTable extends Migration
     public function up()
     {
         Schema::create('soccers', function (Blueprint $table) {
-            $table->id();
+            $table->bigIncrements('id');
+            $table->string('name', 100)->nullable();
+            $table->string('duration', 100)->nullable();
+            $table->float('amount')->nullable()->default(0.00);
+            $table->string('type', 100)->nullable();
             $table->timestamps();
         });
     }

@@ -3,7 +3,7 @@
 namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
-use App\Models\Specification;
+use App\Models\Soccer;
 
 class SpecificationTableSeeder extends Seeder
 {
@@ -14,13 +14,32 @@ class SpecificationTableSeeder extends Seeder
      */
     public function run()
     {
-        foreach(range(1, 780) as $item)
-        {
-            Specification::create([
-                'utility' => 'lettino',
-                'spec_id' => $item,
-                'type' => '-'
-            ]);
-        }
+        Soccer::create([
+            'name' => 'soccer camp 1',
+            'duration' => '20:00 - 21:00',
+            'amount' => '10',
+            'type' => 'soccer camp 1'
+        ]);
+
+        Soccer::create([
+            'name' => 'soccer camp 1',
+            'duration' => '21:00 - 22:00',
+            'amount' => '10',
+            'type' => 'soccer camp 1'
+        ]);
+
+        Soccer::create([
+            'name' => 'soccer camp 1',
+            'duration' => '22:00 - 23:00',
+            'amount' => '10',
+            'type' => 'soccer camp 1'
+        ]);
+
+        Soccer::create([
+            'name' => 'soccer camp 1',
+            'duration' => '23:00 - 00:00',
+            'amount' => '10',
+            'type' => 'soccer camp 1'
+        ]);
     }
 }

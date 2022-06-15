@@ -18,7 +18,7 @@ class CreateHoldOrdersTable extends Migration
             $table->integer('map_id')->unsigned()->nullable();
             $table->string('name', 100)->nullable();
             $table->integer('order_id')->unsigned()->nullable();
-            $table->date('booked_date')->nullable();
+            $table->dateTime('booked_date')->nullable();
             $table->integer('accessory_id')->unsigned()->nullable();
             $table->bigInteger('persons')->nullable()->default(1);
             $table->bigInteger('day')->nullable()->default(1);

@@ -4,27 +4,38 @@
 <div class="container pt-5 pb-4">
 	<div class="row">
 	   <div class="col-md-6 col-lg-6 col-xl-6 mx-auto">
+		@if(Session::has('error'))
+		  <div class="alert alert-danger" role="alert">
+			{!! session('error') !!}
+		  </div>
+		@endif
+
+		@if(Session::has('success'))
+			<div class="alert alert-success" role="alert">
+			{!! session('success') !!}
+			</div>
+		@endif
 		  <div class="bg-white shadow-md rounded p-3 pt-sm-4 pb-sm-5 px-sm-5">
 			 <form id="postForm" method="POST" action="{{ url('check-valid') }}">
 				@csrf
 				 <div class="col-md-4 col-lg form-group">
 					 <label>DAL:</label>
-					 <input id="startDate" name="arrivo" type="text" value="{{ date('d-m-Y') }}" class="form-control" required placeholder="DAL:" autocomplete="off">
+					 <input id="startDate" name="arrivo" type="text" class="form-control" required placeholder="DAL:" autocomplete="off">
 				 </div>
 				 <div class="col-md-4 col-lg form-group">
-					<select class="form-control" name="day">
+					<select class="form-control" name="type">
 						<option value="soccer1" >Soccer 1</option>
 						<option value="soccer2" >Soccer 2</option>
 						<option value="tennis" >Tennis</option>
 					</select>
 				</div>
-				 <div class="col-md-4 col-lg form-group">
+				 {{-- <div class="col-md-4 col-lg form-group">
 					 <select class="form-control" name="day">
 						 <option value="1" >GIORNATA INTERA 9:00-18:00</option>
 						 <option value="2" >MATTINA 9:00-13:00</option>
 						 <option value="3" >POMERIGGIO 13:30-18:00</option>
 					 </select>
-				 </div>
+				 </div> --}}
 				<div class="row my-12">
 				   <div class="col">
 					  <div class="form-check text-2 custom-control custom-checkbox">
@@ -48,6 +59,9 @@
 <script src="{{ asset('front/moment.min.js') }}"></script>
 <script src="{{ asset('front/daterangepicker.js') }}"></script>
 <script>
+	$(document).ready(function() {
+		$('#startDate').val(moment().format('DD-MM-YYYY'));
+	});
 
 	$('#startDate').daterangepicker({
 		singleDatePicker: true,
@@ -56,16 +70,6 @@
 		autoUpdateInput: false,
 	}, function(chosen_date) {
 		$('#startDate').val(chosen_date.format('DD-MM-YYYY'));
-        $('#endDate').val(chosen_date.format('DD-MM-YYYY'));
-	});
-
-	$('#endDate').daterangepicker({
-		singleDatePicker: true,
-		autoApply: true,
-		minDate: moment(),
-		autoUpdateInput: false,
-	}, function(chosen_date) {
-		$('#endDate').val(chosen_date.format('DD-MM-YYYY'));
 	});
 
 	$('button[type="submit"]').click(function(e) {

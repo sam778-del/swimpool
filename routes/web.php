@@ -67,5 +67,7 @@ Route::resource('price', PriceController::class)->middleware(['auth']);
 
 Route::resource('report', ReportController::class);
 
-Route::post('check-valid', [FrontendController::class, 'checkValid']);
+Route::post('check-valid', [FrontendController::class, 'checkValid'])->name('check-valid');
 Route::post('aggiungiprenotazione1bisdaombrellonecliente', [FrontendController::class, 'insertMap']);
+
+
